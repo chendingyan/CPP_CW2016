@@ -23,8 +23,3 @@ void StaticObject::DoUpdate(int iCurrentTime)
 	//RedrawObjects();
 }
 
-
-int StaticObject::getMode()
-{
-	return m_mode;
-}

@@ -27,3 +27,25 @@ void DynamicObject::DoUpdate(int iCurrentTime)
 	}
 	m_mode = isHooked();
 }
+
+
+bool DynamicObject::CollsionDetection(HookableObject * obj)
+{
+	if (obj->m_PosY < GetYCentre() && obj->m_PosY + obj->m_SizeY > GetYCentre()){
+		if (direction == 1){
+			int distance = obj->m_PosX + obj->m_SizeX - iCurrentScreenX;
+			if ( SDL_abs(distance) <= 1){
+				return true;
+			}
+		}
+		else if (direction == 2){
+			int distance = obj->m_PosX - iCurrentScreenX - m_SizeX;
+			if ( SDL_abs(distance) <= 1){
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+

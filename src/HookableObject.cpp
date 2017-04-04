@@ -43,7 +43,7 @@ int HookableObject::isHooked()
 		iCurrentScreenY -= hook->m_speedY;
 		m_iCurrentScreenY = iCurrentScreenY;
 
-		if ((iCurrentScreenX > hook->m_PosX - 5 || iCurrentScreenY < hook->m_PosX + 5) && iCurrentScreenY < hook->m_PosY + 5){
+		if ((iCurrentScreenX > hook->m_PosX - 1 || iCurrentScreenY < hook->m_PosX + 1) && iCurrentScreenY < hook->m_PosY + 1){
 			m_mode = 2;
 			hook->isHook = false;
 			iCurrentScreenX = hook->m_PosX;

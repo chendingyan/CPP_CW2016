@@ -186,4 +186,7 @@ void HookObject::changeSpeed(int type, int size)
 	else if (type == 3){
 		speedParameter = 0.8;
 	}
+	else if (type == 4){
+		speedParameter = 0.5;
+	}
 }

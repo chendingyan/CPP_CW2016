@@ -14,6 +14,5 @@ public:
 	
 
 	void DoUpdate(int iCurrentTime);
-	int getMode();
 };
 

@@ -50,6 +50,5 @@ void DiamondObject::Draw()
 
 void DiamondObject::DoUpdate(int iCurrentTime)
 {
-	StaticObject::DoUpdate(iCurrentTime);
-	m_mode = getMode();
+	m_mode = HookableObject::isHooked();
 }

@@ -14,5 +14,7 @@ public:
 	int direction; //1-left, 2-right
 	void Draw();
 	void DoUpdate(int iCurrentTime);
+	bool CollsionDetection(HookableObject * obj);
 };
+
 

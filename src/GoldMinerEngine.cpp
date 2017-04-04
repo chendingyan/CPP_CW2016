@@ -4,6 +4,7 @@
 #include "GoldObject.h"
 #include "StoneObject.h"
 #include "DiamondObject.h"
+#include "PigObject.h"
 #include "header.h"
 #include "templates.h"
 using namespace std;
@@ -97,14 +98,14 @@ int GoldMinerEngine::InitialiseObjects()
 	if (m_State == 1){
 		StoreObjectInArray(0, new HookObject(this, 30, 10, 5, "right", 1));
 		StoreObjectInArray(1, new GoldObject(this, 53, 47, 200, 200));
-		StoreObjectInArray(2, new GoldObject(this, 50, 50, 430, 210));
+		StoreObjectInArray(2, new GoldObject(this, 50, 50, 630, 310));
 		StoreObjectInArray(3, new GoldObject(this, 93, 95, 400, 280));
-		StoreObjectInArray(4, new StoneObject(this, 50, 50, 330, 150));
+		StoreObjectInArray(4, new StoneObject(this, 50, 50, 330, 250));
 		StoreObjectInArray(5, new DiamondObject(this, 67, 50, 300, 400));
-		/*StoreObjectInArray(6, new PigObject(this, 49, 48, 700, 170, 1));*/
+		StoreObjectInArray(6, new PigObject(this, 49, 48, 700, 170, 1));
 		StoreObjectInArray(9, NULL);
 	}
-	Num_Of_Objects = 4;
+	Num_Of_Objects = 6;
 
 	return 0;
 }
