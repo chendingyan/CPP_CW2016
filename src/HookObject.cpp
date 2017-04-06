@@ -1,8 +1,10 @@
 #include "HookObject.h"
+#include "BombObject.h"
 
 
 HookObject::HookObject(GoldMinerEngine * pEngine, int angle = 30, int len1 = 20, int len2 = 20, string direction = "left", int rotatespeed = 3)
 	:DisplayableObject(pEngine),
+	m_pEngine(pEngine),
 	m_angle(angle),
 	m_mode(0),
 	m_PosX(0),
@@ -58,6 +60,9 @@ void HookObject::Draw()
 	default:
 		break;
 	}
+	
+	//detect if the hook hooked bomb
+	//BombObject &bomb = m_pEngine->GetTileManager();
 	StoreLastScreenPositionForUndraw();
 }
 

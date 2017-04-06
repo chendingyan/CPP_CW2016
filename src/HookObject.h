@@ -38,6 +38,6 @@ public:
 	int getLen1();
 	int getLen2();
 	double speedParameter;
-	
+	GoldMinerEngine * m_pEngine;
 };
 

@@ -120,6 +120,9 @@
     <ClInclude Include="PigObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BombObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="mainfunction.cpp">
@@ -207,6 +210,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="PigObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BombObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

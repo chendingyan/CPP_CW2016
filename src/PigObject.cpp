@@ -47,7 +47,6 @@ void PigObject::Draw()
 		
 		if (GetEngine()->GetTime() - starttime >= 300){
 			score = rand() % 40 - 20;
-			//int to string(not itoa)
 			starttime = GetEngine()->GetTime();
 		}
 		sprintf(str, "%d", score);
