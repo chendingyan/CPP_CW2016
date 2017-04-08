@@ -7,21 +7,32 @@
 #include "PigObject.h"
 #include "header.h"
 #include "templates.h"
-#define TIMELIMIT 60;
+#include <cstdlib>
+#define TIMELIMIT 60
 using namespace std;
-
+const int goals[10] = { 200, 400, 700, 900, 1000, 1200, 1500, 3000, 3200, 3300 };
+char default_name[50] = "Name";
 GoldMinerEngine::GoldMinerEngine()
 	: m_State(0),
 	score(0),
 	Num_Of_Objects(0),
-	starttime(0),
-	level(0)
-	, gold_num(0)
-	, stone_num(0)
-	, diamond_num(0)
-	, levelTime(60)
+	start_time(TIMELIMIT),
+	level(1)
+	, gold_num(3)
+	, stone_num(5)
+	, diamond_num(2)
+	, levelTime(TIMELIMIT)
+	, remaining_time(TIMELIMIT)
+	, text_pointer(-1)
+	, name_x(350)
+	, name_y(520)
+	, name_init(350)
+	, obj_num(10)
+	, gs_num(0)
+	, restart_time(0)
+	, pause_time(0)
 {
-	bg_img.LoadImage("./img/ini_bk.jpg");
+	bg_img.LoadImage("./img/background-ppt.png");
 	start_button.LoadImage("./img/start.jpg");
 	score_button.LoadImage("./img/scores.jpg");
 	instruction_img.LoadImage("./img/instruction.jpg");
@@ -30,9 +41,13 @@ GoldMinerEngine::GoldMinerEngine()
 	bg3.LoadImage("./img/bg3.png");
 	bg4.LoadImage("./img/bg4.png");
 	score_bg.LoadImage("./img/score_bk.jpg");
+	gs_num = obj_num - diamond_num;
 	bombPosX = 10 * (rand() % 50 + 10);
 	bombPosY = 10 * (rand() & 20 + 20);
 	tile_width = 64;
+	/*default_name = (char*)malloc(sizeof(char) * 100);
+	default_name = "Name";*/
+	player_name = (char*)malloc(sizeof(char) * 100);
 }
 
 
@@ -58,7 +73,7 @@ void GoldMinerEngine::SetupBackgroundBuffer()
 			0, 0,
 			80, 470,
 			start_button.GetWidth(), start_button.GetHeight());
-		score_button.RenderImage(this->GetBackground,
+		score_button.RenderImage(this->GetBackground(),
 			0, 0,
 			420, 470,
 			score_button.GetWidth(), score_button.GetHeight());
@@ -96,6 +111,9 @@ void GoldMinerEngine::SetupBackgroundBuffer()
 			0, 0,
 			bg_img.GetWidth(), bg_img.GetHeight());
 		DrawBackgroundString(240, 470, "Enter Your Name", 0xffffff, NULL);
+		if (text_pointer == -1){
+			DrawBackgroundString(name_init, name_y, default_name, 0xffffff, NULL);
+		}
 		break;
 		//instruction
 	case 6:
@@ -132,12 +150,12 @@ void GoldMinerEngine::MouseDown(int iButton, int iX, int iY)
 	{
 	case 0:
 		if (iX > 80 && iX < 330 && iY > 470 && iY < 557){
-			m_State = 1;
+			m_State = 5;
 			SetupBackgroundBuffer();
 			Redraw(true);
 		}
 		if (iX>420 && iX < 708 && iY> 470 && iY < 557){
-			m_State = 7;
+			m_State = 8;
 			// Force redraw of background
 			SetupBackgroundBuffer();
 			// Redraw the whole screen now
@@ -172,19 +190,12 @@ int GoldMinerEngine::InitialiseObjects()
 }
 
 
-void GoldMinerEngine::DrawStrings()
-{
-	UnDrawStrings();
-	char buf[128];
-	printf("score = %d\n", score);
-	sprintf(buf, "Score: %d", score);
-	DrawScreenString(600, 50, buf, 0xff00ff, NULL);
-}
+
 
 
 void GoldMinerEngine::changeBackground()
 {
-	int offset = GetTime() - starttime;
+	int offset = m_iTick - start_time;
 	if (offset < 3000){
 		RenderImageHelper(bg1);
 	}
@@ -198,7 +209,7 @@ void GoldMinerEngine::changeBackground()
 		RenderImageHelper(bg4);
 	}
 	else{
-		starttime = GetTime();
+		start_time = GetTime();
 	}
 	
 }
@@ -245,12 +256,12 @@ void GoldMinerEngine::DrawStringOnTop()
 		DrawScreenString(600, 50, right, 0xffffff, NULL);
 		sprintf(left, "Level: %d", level);
 		DrawScreenString(30, 10, left, 0x000000, NULL);
-		int time = levelTime - (int)(m_iTick - starttime) / 1000;
-		sprintf(left, "Time: %d", time);
+		remaining_time = start_time - (int)(m_iTick - restart_time) / 1000;
+		sprintf(left, "Time: %d", remaining_time);
 		DrawScreenString(30, 50, left, 0xffffff, NULL);
 		break;
 	case 2:
-		levelTime = time;
+		start_time = remaining_time;
 		sprintf(left, "GAME STOP!");
 		DrawScreenString(30, 10, left, 0x000000, NULL);
 		break;
@@ -259,5 +270,176 @@ void GoldMinerEngine::DrawStringOnTop()
 		DrawScreenString(50, 20, left, 0x000000, NULL);
 	default:
 		break;
+	}
+}
+
+
+void GoldMinerEngine::KeyDown(int iKeyCode)
+{
+	if (m_State == 5){
+		//set name
+		SetName(iKeyCode);
+	}
+	switch (iKeyCode)
+	{
+	case SDLK_ESCAPE:
+		SetExitWithCode(0);
+		break;
+	case SDLK_SPACE:
+		switch (m_State){
+		case 0:
+			break;
+		case 5:
+			for (int i = 0; i < text_pointer; i++){
+				player_name[i] = default_name[i];
+			}
+			player_name[text_pointer] = '\0';
+			printf("hi %s\n", player_name);
+			m_State = 6;
+			SetupBackgroundBuffer();
+			Redraw(true);
+			break;
+		case 6:
+			m_State = 7;
+			SetupBackgroundBuffer();
+			Redraw(true);
+			break;
+		case 7:
+			start_time = GetTime();
+			m_State = 1;
+			SetupBackgroundBuffer();
+			Redraw(true);
+			break;
+		case 1:
+			m_State = 2;
+			pause_time = GetTime();
+			SetupBackgroundBuffer();
+			Redraw(true);
+			break;
+		case 2:
+			restart_time = GetTime();
+			m_State = 1;
+			IncreaseTimeOffset(pause_time - restart_time);
+			break;
+		case 3:
+			m_State = 8;
+			SetupBackgroundBuffer();
+			Redraw(true);
+			showScores();
+			break;
+		case 4:
+			m_State = 8;
+			SetupBackgroundBuffer();
+			Redraw(true);
+			showScores();
+			break;
+		case 8:
+			reset();
+			break;
+		}
+	default:
+		break;
+	}
+}
+
+
+void GoldMinerEngine::SetName(int iKeyCode)
+{
+	char ch[2];
+	int char_width = 20;
+	int temp = name_init;
+	if (text_pointer == -1){
+		text_pointer++;
+		SetupBackgroundBuffer();
+		Redraw(true);
+	}
+	//if someone delete the character
+	if (iKeyCode == SDLK_BACKSPACE && text_pointer > 0){
+		SetupBackgroundBuffer();
+		text_pointer--;
+		for (int i = 0; i < text_pointer; i++){
+			sprintf(ch, "%c", default_name[i]);
+			DrawBackgroundString(temp, name_y, ch, 0xff0000, NULL);
+			temp += char_width;
+		}
+		name_x -= char_width;
+		Redraw(true);
+	}
+	//input a character
+	if (iKeyCode != SDLK_SPACE && iKeyCode != SDLK_BACKSPACE){
+		default_name[text_pointer] = iKeyCode;
+		sprintf(ch, "%c", iKeyCode);
+		DrawBackgroundString(name_x, name_y, ch, 0xff0000, NULL);
+		text_pointer++;
+		name_x += char_width;
+		Redraw(true);
+	}
+}
+
+
+void GoldMinerEngine::reset()
+{
+	level = 1;
+	m_State = 0;
+	obj_num = 10;
+	score = 0;
+	remaining_time = TIMELIMIT;
+	start_time = TIMELIMIT;
+	restart_time = 0;
+	diamond_num = 2;
+	gold_num = 3;
+	stone_num = 5;
+	gs_num = obj_num - diamond_num;
+	InitialiseObjects();
+	SetupBackgroundBuffer();
+	Redraw(true);
+}
+
+
+void GoldMinerEngine::showScores()
+{
+}
+
+//override GameAction();
+void GoldMinerEngine::GameAction()
+{
+	if (!IsTimeToAct()){
+		return;
+	}
+	SetTimeOffset(25);
+	switch (m_State)
+	{
+	case 1:
+		changeBackground();
+		if (remaining_time == 0){
+			
+		}
+	default:
+		break;
+	}
+}
+
+//check which states to go when time is up
+void GoldMinerEngine::checkStatus()
+{
+	//if (score >= goals[level - 1] && level < 10){
+	//	//update level
+	//}
+	//else if (score >= goals[level - 1] && level == 10){
+	//	m_State = 3;
+	//	SetupBackgroundBuffer();
+	//	Redraw(true);
+
+	//}
+	if (score >= goals[level - 1]){
+		m_State = 3;
+		SetupBackgroundBuffer();
+		Redraw(true);
+	}
+	else{
+		m_State = 4;
+		SetupBackgroundBuffer();
+		Redraw(true);
+
 	}
 }

@@ -1,4 +1,4 @@
-﻿Build started 05/04/2017 3:08:06 PM.
+﻿Build started 08/04/2017 12:14:25 PM.
      1>Project "C:\GoldMiner\CPP_CW2016\src\CourseworkBase.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
          C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I..\SDL\include /ZI /nologo /W1 /WX- /Od /Oy- /Gm- /EHsc /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"C:\GoldMiner\CPP_CW2016\/Debug\\" /Fd"C:\GoldMiner\CPP_CW2016\/Debug\vc120.pdb" /FR"C:\GoldMiner\CPP_CW2016\/Debug\\" /Gd /TP /analyze- /errorReport:prompt GoldMinerEngine.cpp
@@ -41,4 +41,4 @@
 
 Build succeeded.
 
-Time Elapsed 00:00:02.01
+Time Elapsed 00:00:02.43
