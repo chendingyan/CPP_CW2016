@@ -1,5 +1,5 @@
 #include "StoneObject.h"
-
+#include "StaticObject.h"
 
 StoneObject::StoneObject(GoldMinerEngine * pEngine, int sizeX, int sizeY, int posX, int posY)
 	: StaticObject(pEngine, sizeX, sizeY, posX, posY),

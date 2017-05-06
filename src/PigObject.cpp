@@ -104,7 +104,7 @@ void PigObject::DoUpdate(int iCurrentTime)
 		if (iCurrentScreenX < 10){
 			direction = 2;
 		}
-		for (int i = 1; i < m_pEngine->Num_Of_Objects; i++){
+		for (int i = 1; i < m_pEngine->obj_num; i++){
 			HookableObject * obj = dynamic_cast<HookableObject*> (GetEngine()->GetDisplayableObject(i));
 			if (CollsionDetection(obj)){
 				direction = 2;
@@ -117,7 +117,7 @@ void PigObject::DoUpdate(int iCurrentTime)
 		if (iCurrentScreenX > 720){
 			direction = 1;
 		}
-		for (int i = 1; i < m_pEngine->Num_Of_Objects; i++){
+		for (int i = 1; i < m_pEngine->obj_num; i++){
 			HookableObject* obj = dynamic_cast<HookableObject*> (GetEngine()->GetDisplayableObject(i));
 			if (CollsionDetection(obj)){
 				direction = 1;

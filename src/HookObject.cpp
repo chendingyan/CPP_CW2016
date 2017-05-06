@@ -2,7 +2,7 @@
 #include "BombObject.h"
 
 
-HookObject::HookObject(GoldMinerEngine * pEngine, int angle = 30, int len1 = 20, int len2 = 20, string direction = "left", int rotatespeed = 3)
+HookObject::HookObject(GoldMinerEngine * pEngine, int loc_x, int loc_y, int angle = 30, int len1 = 20, int len2 = 20, string direction = "left", int rotatespeed = 3)
 	:DisplayableObject(pEngine),
 	m_pEngine(pEngine),
 	m_angle(angle),
@@ -20,9 +20,15 @@ HookObject::HookObject(GoldMinerEngine * pEngine, int angle = 30, int len1 = 20,
 	static_angle(0),
 	isHook(false),
 	speedParameter(1)
+	, explode(0)
+	, explode_x(0)
+	, explode_y(0)
+	, t_value(20)
+	, mloc_x(loc_x)
+	, mloc_y(loc_y)
 {
 	m_iCurrentScreenX = m_iPreviousScreenX = iCurrentScreenX = m_PosX = GetEngine()->GetScreenWidth() / 2;	//set the hook at the middle of the width
-	m_iCurrentScreenY = m_iPreviousScreenY = iCurrentScreenY = m_PosY = 100;
+	m_iCurrentScreenY = m_iPreviousScreenY = iCurrentScreenY = m_PosY = 150;
 
 	m_iStartDrawPosX = 0;
 	m_iStartDrawPosY = 0;
@@ -62,7 +68,38 @@ void HookObject::Draw()
 	}
 	
 	//detect if the hook hooked bomb
-	//BombObject &bomb = m_pEngine->GetTileManager();
+	BombObject &bomb = m_pEngine->GetTileManager();
+	int itsize = bomb.GetTileHeight();
+	int xDiff = abs(m_iCurrentScreenX - mloc_x);
+	int yDiff = abs(m_iCurrentScreenY - mloc_y);
+
+	if (explode == 0 && (xDiff*xDiff + yDiff*yDiff < (itsize / 2 + 20)*(itsize / 2 + 20))){
+		explode = 1;
+		m_mode = 2;
+		explode_x = m_iCurrentScreenX;
+		explode_y = m_iCurrentScreenY;
+	}
+
+	// tile animation
+	if (explode == 1 && t_value > 5){
+		t_value -= 1;
+		for (int i = 0; i < 3; i++){
+			for (int j = 0; j < 3; j++){
+				bomb.UpdateTile(m_pEngine, i, j, t_value);
+			}
+		}
+	}
+
+	if (t_value == 5){
+		for (int i = 0; i < 3; i++){
+			for (int j = 0; j < 3; j++){
+				bomb.UpdateTile(m_pEngine, i, j, -1);
+			}
+		}
+		t_value = -1;
+		explode = -1;
+	}
+
 	StoreLastScreenPositionForUndraw();
 }
 

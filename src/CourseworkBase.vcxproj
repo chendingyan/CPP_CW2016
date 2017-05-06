@@ -88,6 +88,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BadPigObject.h" />
     <ClInclude Include="BombObject.h" />
     <ClInclude Include="DiamondObject.h" />
     <ClInclude Include="DynamicObject.h" />
@@ -99,9 +100,11 @@
     <ClInclude Include="FontManager.h" />
     <ClInclude Include="HookableObject.h" />
     <ClInclude Include="HookObject.h" />
+    <ClInclude Include="InitialStage.h" />
     <ClInclude Include="JPGImage.h" />
     <ClInclude Include="MovementPosition.h" />
     <ClInclude Include="PigObject.h" />
+    <ClInclude Include="StageClass.h" />
     <ClInclude Include="StaticObject.h" />
     <ClInclude Include="StoneObject.h" />
     <ClInclude Include="templates.h" />
@@ -122,6 +125,7 @@
     <ClInclude Include="SimpleDemo.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BadPigObject.cpp" />
     <ClCompile Include="BombObject.cpp" />
     <ClCompile Include="DiamondObject.cpp" />
     <ClCompile Include="DynamicObject.cpp" />
@@ -129,6 +133,7 @@
     <ClCompile Include="GoldObject.cpp" />
     <ClCompile Include="HookableObject.cpp" />
     <ClCompile Include="HookObject.cpp" />
+    <ClCompile Include="InitialStage.cpp" />
     <ClCompile Include="mainfunction.cpp" />
     <ClCompile Include="BaseEngine.cpp" />
     <ClCompile Include="DisplayableObject.cpp" />
@@ -136,6 +141,7 @@
     <ClCompile Include="JPGImage.cpp" />
     <ClCompile Include="PigObject.cpp" />
     <ClCompile Include="SimpleDemo.cpp" />
+    <ClCompile Include="StageClass.cpp" />
     <ClCompile Include="StaticObject.cpp" />
     <ClCompile Include="StoneObject.cpp" />
     <ClCompile Include="TileManager.cpp" />

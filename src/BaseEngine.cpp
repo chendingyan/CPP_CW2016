@@ -156,9 +156,13 @@ void BaseEngine::CreateObjectArray(int iNumberObjects)
 {
 	// Destroy any existing object array if it exists
 	DestroyOldObjects();
-	m_ppDisplayableObjects = new DisplayableObject*[iNumberObjects + 1];
+	m_ppDisplayableObjects = new vector<DisplayableObject*>(iNumberObjects+1);//DisplayableObject*[iNumberObjects + 1];
 	// Clear the array - set all elements to 0
-	memset(m_ppDisplayableObjects, 0, sizeof(DisplayableObject*) * (iNumberObjects + 1));
+	//memset(m_ppDisplayableObjects, 0, sizeof(DisplayableObject*) * (iNumberObjects + 1));
+	//for (int i = 0; i < m_ppDisplayableObjects->size(); i++) {
+		//(*m_ppDisplayableObjects)[i] = NULL;
+		//printf("%p\n", (*m_ppDisplayableObjects)[i]);
+	//}
 }
 
 
@@ -166,7 +170,7 @@ void BaseEngine::CreateObjectArray(int iNumberObjects)
 
 void BaseEngine::StoreObjectInArray(int iIndex, DisplayableObject* pObject)
 {
-	m_ppDisplayableObjects[iIndex] = pObject;
+	(*m_ppDisplayableObjects)[iIndex] = pObject;
 }
 
 
@@ -178,12 +182,12 @@ void BaseEngine::DestroyOldObjects()
 
 	if (m_ppDisplayableObjects != NULL)
 	{
-		for (int i = 0; m_ppDisplayableObjects[i] != NULL; i++)
+		for (int i = 0; (*m_ppDisplayableObjects)[i] != NULL; i++)
 		{
-			delete m_ppDisplayableObjects[i];
-			m_ppDisplayableObjects[i] = NULL;
+			delete (*m_ppDisplayableObjects)[i];
+			(*m_ppDisplayableObjects)[i] = NULL;
 		}
-		delete[] m_ppDisplayableObjects;
+		delete m_ppDisplayableObjects;
 		m_ppDisplayableObjects = NULL;
 	}
 }
@@ -390,11 +394,13 @@ void BaseEngine::UpdateAllObjects( int iCurrentTime )
 	m_iDrawableObjectsChanged = 0;
 	if ( m_ppDisplayableObjects != NULL )
 	{
-		for ( int i = 0 ; m_ppDisplayableObjects[i] != NULL ; i++ )
+		for (int i = 0; i < m_ppDisplayableObjects->size(); i++)
 		{
-			m_ppDisplayableObjects[i]->DoUpdate(iCurrentTime);
-			if ( m_iDrawableObjectsChanged )
-				return; // Abort! Something changed in the array
+			if ((*m_ppDisplayableObjects)[i] != NULL){
+				(*m_ppDisplayableObjects)[i]->DoUpdate(iCurrentTime);
+				if (m_iDrawableObjectsChanged)
+					return; // Abort! Something changed in the array
+			}
 		}
 	}
 }
@@ -610,9 +616,9 @@ void BaseEngine::UndrawObjects()
 	// This effectively un-draws the old positions of the objects
 	if ( m_ppDisplayableObjects != NULL )
 	{
-		for ( int i = 0 ; m_ppDisplayableObjects[i] != NULL ; i++ )
+		for (int i = 0; (*m_ppDisplayableObjects)[i] != NULL; i++)
 		{
-			m_ppDisplayableObjects[i]->RedrawBackground();
+			(*m_ppDisplayableObjects)[i]->RedrawBackground();
 			if ( m_iDrawableObjectsChanged )
 				return; // Abort! Something changed in the array
 		}
@@ -629,11 +635,14 @@ void BaseEngine::DrawObjects()
 	// And this re-draws the new positions
 	if ( m_ppDisplayableObjects != NULL )
 	{
-		for ( int i = 0 ; m_ppDisplayableObjects[i] != NULL ; i++ )
+		for (int i = 0; i < m_ppDisplayableObjects->size(); i++)
 		{
-			m_ppDisplayableObjects[i]->Draw();
-			if ( m_iDrawableObjectsChanged )
-				return; // Abort! Something changed in the array
+			if ((*m_ppDisplayableObjects)[i] != NULL){
+				(*m_ppDisplayableObjects)[i]->Draw();
+				if (m_iDrawableObjectsChanged)
+					return; // Abort! Something changed in the array
+			}
+			
 		}
 	}
 }
@@ -648,9 +657,9 @@ You may need to dynamic_cast the resulting pointer to the correct type.
 */
 DisplayableObject* BaseEngine::GetDisplayableObject( int iIndex )
 {
-	if ( m_ppDisplayableObjects != NULL )
+	if ( m_ppDisplayableObjects != NULL && iIndex < m_ppDisplayableObjects->size())
 	{
-		return m_ppDisplayableObjects[iIndex];
+		return (*m_ppDisplayableObjects)[iIndex];
 	}
 	else
 		return NULL;
@@ -1179,9 +1188,9 @@ void BaseEngine::NotifyAllObjects( int iSignalNumber )
 {
 	if ( m_ppDisplayableObjects != NULL )
 	{
-		for ( int i = 0; m_ppDisplayableObjects[i] != NULL; i++ )
+		for (int i = 0; (*m_ppDisplayableObjects)[i] != NULL; i++)
 		{
-			m_ppDisplayableObjects[i]->Notify( iSignalNumber );
+			(*m_ppDisplayableObjects)[i]->Notify(iSignalNumber);
 		}
 	}
 }
@@ -1192,9 +1201,9 @@ int BaseEngine::NotifyAllObjectsGetCountNonZero( int iSignalNumber )
 	int iReturn = 0;
 	if ( m_ppDisplayableObjects != NULL )
 	{
-		for ( int i = 0; m_ppDisplayableObjects[i] != NULL; i++ )
+		for (int i = 0; (*m_ppDisplayableObjects)[i] != NULL; i++)
 		{
-			if ( m_ppDisplayableObjects[i]->Notify( iSignalNumber ) != 0 )
+			if ((*m_ppDisplayableObjects)[i]->Notify(iSignalNumber) != 0)
 				iReturn++;
 		}
 	}
@@ -1207,9 +1216,9 @@ int BaseEngine::NotifyAllObjectsGetSum( int iSignalNumber )
 	int iReturn = 0;
 	if ( m_ppDisplayableObjects != NULL )
 	{
-		for ( int i = 0; m_ppDisplayableObjects[i] != NULL; i++ )
+		for (int i = 0; (*m_ppDisplayableObjects)[i] != NULL; i++)
 		{
-			iReturn += m_ppDisplayableObjects[i]->Notify( iSignalNumber );
+			iReturn += (*m_ppDisplayableObjects)[i]->Notify(iSignalNumber);
 		}
 	}
 	return iReturn;
@@ -1221,9 +1230,9 @@ int BaseEngine::NotifyAllObjectsGetMax( int iSignalNumber )
 	int iReturn = INT_MIN;
 	if ( m_ppDisplayableObjects != NULL )
 	{
-		for ( int i = 0; m_ppDisplayableObjects[i] != NULL; i++ )
+		for (int i = 0; (*m_ppDisplayableObjects)[i] != NULL; i++)
 		{
-			int ival = m_ppDisplayableObjects[i]->Notify( iSignalNumber );
+			int ival = (*m_ppDisplayableObjects)[i]->Notify(iSignalNumber);
 			if ( ival > iReturn )
 				iReturn = ival;
 		}
@@ -1237,9 +1246,9 @@ int BaseEngine::NotifyAllObjectsGetMin( int iSignalNumber )
 	int iReturn = INT_MAX;
 	if ( m_ppDisplayableObjects != NULL )
 	{
-		for ( int i = 0; m_ppDisplayableObjects[i] != NULL; i++ )
+		for (int i = 0; (*m_ppDisplayableObjects)[i] != NULL; i++)
 		{
-			int ival = m_ppDisplayableObjects[i]->Notify( iSignalNumber );
+			int ival = (*m_ppDisplayableObjects)[i]->Notify(iSignalNumber);
 			if ( ival < iReturn )
 				iReturn = ival;
 		}

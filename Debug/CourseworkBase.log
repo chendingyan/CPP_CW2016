@@ -1,16 +1,31 @@
-﻿Build started 08/04/2017 12:14:25 PM.
+﻿Build started 06/05/2017 3:45:34 PM.
      1>Project "C:\GoldMiner\CPP_CW2016\src\CourseworkBase.vcxproj" on node 2 (Build target(s)).
      1>ClCompile:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I..\SDL\include /ZI /nologo /W1 /WX- /Od /Oy- /Gm- /EHsc /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"C:\GoldMiner\CPP_CW2016\/Debug\\" /Fd"C:\GoldMiner\CPP_CW2016\/Debug\vc120.pdb" /FR"C:\GoldMiner\CPP_CW2016\/Debug\\" /Gd /TP /analyze- /errorReport:prompt GoldMinerEngine.cpp
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\CL.exe /c /I..\SDL\include /ZI /nologo /W1 /WX- /Od /Oy- /Gm- /EHsc /MD /GS /fp:precise /Zc:wchar_t /Zc:forScope /Fo"C:\GoldMiner\CPP_CW2016\/Debug\\" /Fd"C:\GoldMiner\CPP_CW2016\/Debug\vc120.pdb" /FR"C:\GoldMiner\CPP_CW2016\/Debug\\" /Gd /TP /analyze- /errorReport:prompt BadPigObject.cpp DiamondObject.cpp DynamicObject.cpp GoldMinerEngine.cpp GoldObject.cpp HookObject.cpp HookableObject.cpp InitialStage.cpp PigObject.cpp StageClass.cpp StaticObject.cpp StoneObject.cpp mainfunction.cpp
+         BadPigObject.cpp
+         DiamondObject.cpp
+         DynamicObject.cpp
          GoldMinerEngine.cpp
+         GoldObject.cpp
+         HookObject.cpp
+         HookableObject.cpp
+         InitialStage.cpp
+         PigObject.cpp
+         StageClass.cpp
+         StaticObject.cpp
+         StoneObject.cpp
+         mainfunction.cpp
+         Generating Code...
        Link:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\GoldMiner\CPP_CW2016\/Debug\CourseworkBase.exe" /NOLOGO /LIBPATH:..\SDL\libx86 SDL2.lib SDL2main.lib SDL2_image.lib SDL2_ttf.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\GoldMiner\CPP_CW2016\/Debug\CourseworkBase.pdb" /MAP:"map" /SUBSYSTEM:CONSOLE /TLBID:1 /ENTRY:"mainCRTStartup" /DYNAMICBASE:NO /IMPLIB:"C:\GoldMiner\CPP_CW2016\/Debug\CourseworkBase.lib" /MACHINE:X86 /SAFESEH C:\GoldMiner\CPP_CW2016\/Debug\BombObject.obj
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\link.exe /ERRORREPORT:PROMPT /OUT:"C:\GoldMiner\CPP_CW2016\/Debug\CourseworkBase.exe" /NOLOGO /LIBPATH:..\SDL\libx86 SDL2.lib SDL2main.lib SDL2_image.lib SDL2_ttf.lib kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"C:\GoldMiner\CPP_CW2016\/Debug\CourseworkBase.pdb" /MAP:"map" /SUBSYSTEM:CONSOLE /TLBID:1 /ENTRY:"mainCRTStartup" /DYNAMICBASE:NO /IMPLIB:"C:\GoldMiner\CPP_CW2016\/Debug\CourseworkBase.lib" /MACHINE:X86 /SAFESEH C:\GoldMiner\CPP_CW2016\/Debug\BadPigObject.obj
+         C:\GoldMiner\CPP_CW2016\/Debug\BombObject.obj
          C:\GoldMiner\CPP_CW2016\/Debug\DiamondObject.obj
          C:\GoldMiner\CPP_CW2016\/Debug\DynamicObject.obj
          C:\GoldMiner\CPP_CW2016\/Debug\GoldMinerEngine.obj
          C:\GoldMiner\CPP_CW2016\/Debug\GoldObject.obj
          C:\GoldMiner\CPP_CW2016\/Debug\HookableObject.obj
          C:\GoldMiner\CPP_CW2016\/Debug\HookObject.obj
+         C:\GoldMiner\CPP_CW2016\/Debug\InitialStage.obj
          C:\GoldMiner\CPP_CW2016\/Debug\mainfunction.obj
          C:\GoldMiner\CPP_CW2016\/Debug\BaseEngine.obj
          C:\GoldMiner\CPP_CW2016\/Debug\DisplayableObject.obj
@@ -18,6 +33,7 @@
          C:\GoldMiner\CPP_CW2016\/Debug\JPGImage.obj
          C:\GoldMiner\CPP_CW2016\/Debug\PigObject.obj
          C:\GoldMiner\CPP_CW2016\/Debug\SimpleDemo.obj
+         C:\GoldMiner\CPP_CW2016\/Debug\StageClass.obj
          C:\GoldMiner\CPP_CW2016\/Debug\StaticObject.obj
          C:\GoldMiner\CPP_CW2016\/Debug\StoneObject.obj
          C:\GoldMiner\CPP_CW2016\/Debug\TileManager.obj
@@ -36,9 +52,9 @@
          C:\GoldMiner\CPP_CW2016\/Debug\Demo4TileManager.obj
          CourseworkBase.vcxproj -> C:\GoldMiner\CPP_CW2016\/Debug\CourseworkBase.exe
        BscMake:
-         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\bscmake.exe /nologo /o"C:\GoldMiner\CPP_CW2016\/Debug\CourseworkBase.bsc" C:\GoldMiner\CPP_CW2016\/Debug\BombObject.sbr C:\GoldMiner\CPP_CW2016\/Debug\DiamondObject.sbr C:\GoldMiner\CPP_CW2016\/Debug\DynamicObject.sbr C:\GoldMiner\CPP_CW2016\/Debug\GoldMinerEngine.sbr C:\GoldMiner\CPP_CW2016\/Debug\GoldObject.sbr C:\GoldMiner\CPP_CW2016\/Debug\HookableObject.sbr C:\GoldMiner\CPP_CW2016\/Debug\HookObject.sbr C:\GoldMiner\CPP_CW2016\/Debug\mainfunction.sbr C:\GoldMiner\CPP_CW2016\/Debug\BaseEngine.sbr C:\GoldMiner\CPP_CW2016\/Debug\DisplayableObject.sbr C:\GoldMiner\CPP_CW2016\/Debug\FontManager.sbr C:\GoldMiner\CPP_CW2016\/Debug\JPGImage.sbr C:\GoldMiner\CPP_CW2016\/Debug\PigObject.sbr C:\GoldMiner\CPP_CW2016\/Debug\SimpleDemo.sbr C:\GoldMiner\CPP_CW2016\/Debug\StaticObject.sbr C:\GoldMiner\CPP_CW2016\/Debug\StoneObject.sbr C:\GoldMiner\CPP_CW2016\/Debug\TileManager.sbr C:\GoldMiner\CPP_CW2016\/Debug\BouncingBall.sbr C:\GoldMiner\CPP_CW2016\/Debug\BouncingBallMain.sbr C:\GoldMiner\CPP_CW2016\/Debug\Demo1Main.sbr C:\GoldMiner\CPP_CW2016\/Debug\Demo2Main.sbr C:\GoldMiner\CPP_CW2016\/Debug\Demo2Object.sbr C:\GoldMiner\CPP_CW2016\/Debug\Demo2TileManager.sbr C:\GoldMiner\CPP_CW2016\/Debug\Demo3Main.sbr C:\GoldMiner\CPP_CW2016\/Debug\Demo3Object.sbr C:\GoldMiner\CPP_CW2016\/Debug\Demo3ObjectFinished.sbr C:\GoldMiner\CPP_CW2016\/Debug\Demo3TileManager.sbr C:\GoldMiner\CPP_CW2016\/Debug\Demo4Main.sbr C:\GoldMiner\CPP_CW2016\/Debug\Demo4Object.sbr C:\GoldMiner\CPP_CW2016\/Debug\Demo4TileManager.sbr
+         C:\Program Files (x86)\Microsoft Visual Studio 12.0\VC\bin\bscmake.exe /nologo /o"C:\GoldMiner\CPP_CW2016\/Debug\CourseworkBase.bsc" C:\GoldMiner\CPP_CW2016\/Debug\BadPigObject.sbr C:\GoldMiner\CPP_CW2016\/Debug\BombObject.sbr C:\GoldMiner\CPP_CW2016\/Debug\DiamondObject.sbr C:\GoldMiner\CPP_CW2016\/Debug\DynamicObject.sbr C:\GoldMiner\CPP_CW2016\/Debug\GoldMinerEngine.sbr C:\GoldMiner\CPP_CW2016\/Debug\GoldObject.sbr C:\GoldMiner\CPP_CW2016\/Debug\HookableObject.sbr C:\GoldMiner\CPP_CW2016\/Debug\HookObject.sbr C:\GoldMiner\CPP_CW2016\/Debug\InitialStage.sbr C:\GoldMiner\CPP_CW2016\/Debug\mainfunction.sbr C:\GoldMiner\CPP_CW2016\/Debug\BaseEngine.sbr C:\GoldMiner\CPP_CW2016\/Debug\DisplayableObject.sbr C:\GoldMiner\CPP_CW2016\/Debug\FontManager.sbr C:\GoldMiner\CPP_CW2016\/Debug\JPGImage.sbr C:\GoldMiner\CPP_CW2016\/Debug\PigObject.sbr C:\GoldMiner\CPP_CW2016\/Debug\SimpleDemo.sbr C:\GoldMiner\CPP_CW2016\/Debug\StageClass.sbr C:\GoldMiner\CPP_CW2016\/Debug\StaticObject.sbr C:\GoldMiner\CPP_CW2016\/Debug\StoneObject.sbr C:\GoldMiner\CPP_CW2016\/Debug\TileManager.sbr C:\GoldMiner\CPP_CW2016\/Debug\BouncingBall.sbr C:\GoldMiner\CPP_CW2016\/Debug\BouncingBallMain.sbr C:\GoldMiner\CPP_CW2016\/Debug\Demo1Main.sbr C:\GoldMiner\CPP_CW2016\/Debug\Demo2Main.sbr C:\GoldMiner\CPP_CW2016\/Debug\Demo2Object.sbr C:\GoldMiner\CPP_CW2016\/Debug\Demo2TileManager.sbr C:\GoldMiner\CPP_CW2016\/Debug\Demo3Main.sbr C:\GoldMiner\CPP_CW2016\/Debug\Demo3Object.sbr C:\GoldMiner\CPP_CW2016\/Debug\Demo3ObjectFinished.sbr C:\GoldMiner\CPP_CW2016\/Debug\Demo3TileManager.sbr C:\GoldMiner\CPP_CW2016\/Debug\Demo4Main.sbr C:\GoldMiner\CPP_CW2016\/Debug\Demo4Object.sbr C:\GoldMiner\CPP_CW2016\/Debug\Demo4TileManager.sbr
      1>Done Building Project "C:\GoldMiner\CPP_CW2016\src\CourseworkBase.vcxproj" (Build target(s)).
 
 Build succeeded.
 
-Time Elapsed 00:00:02.43
+Time Elapsed 00:00:12.20

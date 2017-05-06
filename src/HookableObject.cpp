@@ -21,7 +21,7 @@ HookableObject::~HookableObject()
 
 int HookableObject::isHooked()
 {
-	HookObject * hook = dynamic_cast<HookObject*>(m_pEngine->GetDisplayableObject(0));
+	HookObject * hook = dynamic_cast<HookObject*>(m_pEngine->GetDisplayableObject(HOOKID));
 	//check if the hook has hooked the object
 	double xcenter = hook->x1 + 1 / 2 * (hook->getLen1()) * SDL_cos((60 + hook->m_angle)*M_PI / 180);
 	double ycenter = hook->y1 + 1 / 2 * (hook->getLen1()) * SDL_sin((60 + hook->m_angle)*M_PI / 180);
@@ -93,4 +93,22 @@ void HookableObject::Draw()
 
 void HookableObject::DoUpdate(int iCurrentTime)
 {
+	printf("Do update\n");
+	BombDetection();
+}
+
+
+void HookableObject::BombDetection()
+{
+	DisplayableObject * object = m_pEngine->GetDisplayableObject(HOOKID);
+	HookObject * hook = dynamic_cast<HookObject *>(object);
+
+	if (hook->explode == 1){
+		int dx = hook->m_PosX - m_iCurrentScreenX - m_SizeX / 2;
+		int dy = hook->m_PosY - m_iCurrentScreenY - m_SizeY / 2;
+		if (dx*dx + dy*dy < (m_SizeX / 2 + 120) * (m_SizeY / 2 + 120)){
+			printf("Detect!\n");
+			SetVisible(false);
+		}
+	}
 }

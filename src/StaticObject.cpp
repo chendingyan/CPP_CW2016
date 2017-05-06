@@ -1,5 +1,5 @@
 #include "StaticObject.h"
-
+#include "HookObject.h"
 
 StaticObject::StaticObject(GoldMinerEngine * pEngine, int sizeX, int sizeY, int posX, int posY)
 	: HookableObject(pEngine, sizeX, sizeY, posX, posY),
@@ -22,4 +22,5 @@ void StaticObject::DoUpdate(int iCurrentTime)
 	//RedrawWholeScreen();
 	//RedrawObjects();
 }
+
 

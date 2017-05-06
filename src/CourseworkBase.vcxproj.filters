@@ -93,9 +93,6 @@
     <ClInclude Include="SimpleDemo.h">
       <Filter>Header Files\Demos</Filter>
     </ClInclude>
-    <ClInclude Include="GoldMinerEngine.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="HookObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -121,6 +118,18 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BombObject.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StageClass.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="InitialStage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GoldMinerEngine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BadPigObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -185,9 +194,6 @@
     <ClCompile Include="SimpleDemo.cpp">
       <Filter>Source Files\Demos</Filter>
     </ClCompile>
-    <ClCompile Include="GoldMinerEngine.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="HookObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -213,6 +219,18 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BombObject.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StageClass.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="InitialStage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GoldMinerEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BadPigObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

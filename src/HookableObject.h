@@ -21,5 +21,6 @@ public:
 	int type;//1-gold, 2-stone...
 	GoldMinerEngine * m_pEngine;
 	double iCurrentScreenX, iCurrentScreenY;
+	void BombDetection();
 };
 

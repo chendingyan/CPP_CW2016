@@ -1,5 +1,5 @@
 #include "GoldObject.h"
-
+#include "StaticObject.h"
 
 GoldObject::GoldObject(GoldMinerEngine * pEngine, int sizeX, int sizeY, int posX, int posY)
 	: StaticObject(pEngine, sizeX, sizeY, posX, posY),
@@ -19,7 +19,7 @@ GoldObject::GoldObject(GoldMinerEngine * pEngine, int sizeX, int sizeY, int posX
 	{
 	case 50: gold.LoadImage("./img/small_gold.png"); break;
 	case 53: gold.LoadImage("./img/med_gold.png"); break;
-	case 93: gold.LoadImage("./img/big_gold.png"); break;
+	case 60: gold.LoadImage("./img/big_gold.png"); break;
 	default:
 		break;
 	}
