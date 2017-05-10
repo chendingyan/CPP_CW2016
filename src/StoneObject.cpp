@@ -47,5 +47,6 @@ void StoneObject::Draw()
 
 void StoneObject::DoUpdate(int iCurrentTime)
 {
+	HookableObject::DoUpdate(iCurrentTime);
 	m_mode = HookableObject::isHooked();
 }

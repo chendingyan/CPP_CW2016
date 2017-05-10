@@ -43,7 +43,7 @@ int HookableObject::isHooked()
 		iCurrentScreenY -= hook->m_speedY;
 		m_iCurrentScreenY = iCurrentScreenY;
 
-		if ((iCurrentScreenX > hook->m_PosX - 1 || iCurrentScreenY < hook->m_PosX + 1) && iCurrentScreenY < hook->m_PosY + 1){
+		if ((iCurrentScreenX >= hook->m_PosX - 3 || iCurrentScreenX <= hook->m_PosX + 3) && iCurrentScreenY <= hook->m_PosY + 1){
 			m_mode = 2;
 			hook->isHook = false;
 			iCurrentScreenX = hook->m_PosX;
@@ -93,7 +93,6 @@ void HookableObject::Draw()
 
 void HookableObject::DoUpdate(int iCurrentTime)
 {
-	printf("Do update\n");
 	BombDetection();
 }
 
@@ -104,11 +103,17 @@ void HookableObject::BombDetection()
 	HookObject * hook = dynamic_cast<HookObject *>(object);
 
 	if (hook->explode == 1){
-		int dx = hook->m_PosX - m_iCurrentScreenX - m_SizeX / 2;
-		int dy = hook->m_PosY - m_iCurrentScreenY - m_SizeY / 2;
-		if (dx*dx + dy*dy < (m_SizeX / 2 + 120) * (m_SizeY / 2 + 120)){
-			printf("Detect!\n");
-			SetVisible(false);
+		for (int i = 1; i < 50; i++){
+			HookableObject * object = dynamic_cast<HookableObject*>(m_pEngine->GetDisplayableObject(i));
+			if (object != NULL){
+				int dx = object->m_PosX+ m_SizeX/2 - m_pEngine->tilex - 64;
+				int dy = object->m_PosY+ m_SizeY/2 - m_pEngine->tiley - 64;
+				if (dx * dx + dy *dy < 64 * 64){
+					//SetVisible(false);
+					m_pEngine->StoreObjectInArray(i, NULL);
+				}
+			}
 		}
+		
 	}
 }

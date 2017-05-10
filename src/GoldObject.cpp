@@ -58,5 +58,6 @@ void GoldObject::Draw()
 
 void GoldObject::DoUpdate(int iCurrentTime)
 {
+	HookableObject::DoUpdate(iCurrentTime);
 	m_mode = HookableObject::isHooked();
 }

@@ -6,6 +6,9 @@ DiamondObject::DiamondObject(GoldMinerEngine * pEngine, int sizeX, int sizeY, in
 	m_pEngine(pEngine)
 {
 	type = 3;
+	if (posY <= 150){
+		posY += 150;
+	}
 	m_iCurrentScreenX = iCurrentScreenX = m_iPreviousScreenX = posX;
 	m_iCurrentScreenY = iCurrentScreenY = m_iPreviousScreenY = posY;
 
@@ -16,7 +19,8 @@ DiamondObject::DiamondObject(GoldMinerEngine * pEngine, int sizeX, int sizeY, in
 	m_iStartDrawPosY = 0;
 	arrived = 0;
 	isleave = false;
-	time = 20;
+	time = 5;
+
 	
 	diamond.LoadImage("./img/diamond.png");
 	SetVisible(true);
@@ -59,6 +63,7 @@ void DiamondObject::DoUpdate(int iCurrentTime)
 		SetVisible(false);
 		return;
 	}
+	HookableObject::DoUpdate(iCurrentTime);
 	m_mode = HookableObject::isHooked();
 }
 

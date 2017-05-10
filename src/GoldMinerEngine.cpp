@@ -13,7 +13,7 @@
 #include "JPGImage.h"
 
 // goals for each level (10 in total)
-const int GoldMinerEngine::goals[] = { 150, 200, 400, 600, 800, 1200, 1500, 2000, 2300, 3000 };
+const int GoldMinerEngine::goals[] = { 0, 200, 400, 600, 800, 1200, 1500, 2000, 2300, 3000 };
 char default_name[50] = "Name";
 
 using namespace std;
@@ -196,7 +196,7 @@ int GoldMinerEngine::InitialiseObjects(){
 	StoreObjectInArray(HOOKID, new HookObject(this, tx, ty, 30, 10, 5, "right", 1));
 	randomx = 70 * rand() % 10;
 	randomy = 50 * (rand() % 4 + 6);
-	StoreObjectInArray(30, new BadPigObject(this, 40, 35, randomx, randomy, 1));
+	//StoreObjectInArray(30, new BadPigObject(this, 40, 35, randomx+100, randomy, 1));
 	return 0;
 }
 
@@ -510,19 +510,42 @@ void GoldMinerEngine::OneRoundEnd(){
 void GoldMinerEngine::SetNextLevel(){
 	// reset to next level
 	level++;
+	int randomx, randomy;
 	switch (level)
 	{
 	case 2:
-		ResetStableObjects(12, 2, 4);  // three para are obs_num, diamond_num and gold_num
-		InitialiseLevelObjects(1, 0);
+		//ResetStableObjects(10, 10, 0);  // three para are obs_num, diamond_num and gold_num
+		//InitialiseLevelObjects(1, 0);
+		this->obj_num = 10;
+		this->gold_num = 0;
+		this->diamond_num = 10;
+		this->stone_num = obj_num - gold_num - diamond_num;
+		this->gs_num = obj_num - diamond_num;
+		DrawableObjectsChanged();
+		CreateObjectArray(100);
+		StoreObjectInArray(HOOKID, new HookObject(this, 100, 100, 30, 10, 5, "right", 1));
+		StoreObjectInArray(1, new DiamondObject(this, 76, 50, 40, 200));
+		StoreObjectInArray(2, new DiamondObject(this, 76, 50, 100, 290));
+		StoreObjectInArray(3, new DiamondObject(this, 76, 50, 160, 320));
+		StoreObjectInArray(4, new DiamondObject(this, 76, 50, 400, 220));
+		StoreObjectInArray(5, new DiamondObject(this, 76, 50, 470, 240));
+		StoreObjectInArray(6, new DiamondObject(this, 76, 50, 570, 420));
+		StoreObjectInArray(7, new DiamondObject(this, 76, 50, 650, 200));
+		StoreObjectInArray(50, new BadPigObject(this, 40, 35, 400, 300, 1));
 		break;
 	case 3:
-		ResetStableObjects(15, 0, 5);  // three para are obs_num, diamond_num and gold_num
+		ResetStableObjects(15, 10, 5);  //  
 		InitialiseLevelObjects(3, 0);
+		randomx = 50 * (rand() % 12);
+		randomy = 50 * (rand() % 5 + 5);
+		StoreObjectInArray(50, new BadPigObject(this, 40, 35, randomx + 100, randomy, 1));
 		break;
 	case 4:
-		ResetStableObjects(13, 3, 4);  // three para are obs_num, diamond_num and gold_num
+		ResetStableObjects(13, 5, 4);  // three para are obs_num, diamond_num and gold_num
 		InitialiseLevelObjects(2, 0);
+		randomx = 50 * (rand() % 12);
+		randomy = 50 * (rand() % 5 + 5);
+		StoreObjectInArray(50, new BadPigObject(this, 40, 35, randomx + 100, randomy, 1));
 		break;
 	case 5:
 		obj_num = 20;
@@ -530,21 +553,30 @@ void GoldMinerEngine::SetNextLevel(){
 		InitialiseLevelObjects(20, 1); // PIG MODE
 		break;
 	case 6:
-		ResetStableObjects(11, 3, 4);  // three para are obs_num, diamond_num and gold_num
+		ResetStableObjects(11, 4, 4);  // three para are obs_num, diamond_num and gold_num
 		InitialiseLevelObjects(2, 0);
 		break;
 	case 7:
-		ResetStableObjects(11, 2, 5);  // three para are obs_num, diamond_num and gold_num
+		ResetStableObjects(11, 3, 5);  // three para are obs_num, diamond_num and gold_num
 		InitialiseLevelObjects(0, 0);
+		randomx = 50 * (rand() % 12);
+		randomy = 50 * (rand() % 5 + 5);
+		StoreObjectInArray(50, new BadPigObject(this, 40, 35, randomx + 100, randomy, 1));
 		break;
 	case 8:
 		ResetStableObjects(8, 8, 3);  // three para are obs_num, diamond_num and gold_num
 		InitialiseLevelObjects(0, 0);
 		break;
+		randomx = 50 * (rand() % 12);
+		randomy = 50 * (rand() % 5 + 5);
+		StoreObjectInArray(50, new BadPigObject(this, 40, 35, randomx + 100, randomy, 1));
 	case 9:
-		ResetStableObjects(14, 2, 12);  // three para are obs_num, diamond_num and gold_num
+		ResetStableObjects(14, 3, 12);  // three para are obs_num, diamond_num and gold_num
 		InitialiseLevelObjects(0, 0);
 		break;
+		randomx = 50 * (rand() % 12);
+		randomy = 50 * (rand() % 5 + 5);
+		StoreObjectInArray(50, new BadPigObject(this, 40, 35, randomx + 100, randomy, 1));
 	case 10:
 		ResetStableObjects(12, 0, 3);  // three para are obs_num, diamond_num and gold_num
 		InitialiseLevelObjects(0, 0);
@@ -598,9 +630,7 @@ void GoldMinerEngine::InitialiseLevelObjects(int pig_num, int map_mode){
 	}
 	
 	StoreObjectInArray(HOOKID, new HookObject(this, tx, ty, 30, 10, 5, "right", 1));
-	randomx = 50 * (rand() % 12);
-	randomy = 50 * (rand() % 5 + 5);
-	StoreObjectInArray(50, new BadPigObject(this, 40, 35, randomx, randomy, 1));
+	
 
 }
 

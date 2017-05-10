@@ -69,15 +69,15 @@ void HookObject::Draw()
 	
 	//detect if the hook hooked bomb
 	BombObject &bomb = m_pEngine->GetTileManager();
-	int itsize = bomb.GetTileHeight();
-	int xDiff = abs(m_iCurrentScreenX - mloc_x);
-	int yDiff = abs(m_iCurrentScreenY - mloc_y);
+	int length = bomb.GetTileHeight();
+	int xDiff = abs(iCurrentScreenX - mloc_x);
+	int yDiff = abs(iCurrentScreenY - mloc_y);
 
-	if (explode == 0 && (xDiff*xDiff + yDiff*yDiff < (itsize / 2 + 20)*(itsize / 2 + 20))){
+	if (explode == 0 && (xDiff*xDiff + yDiff*yDiff < (length / 2 + 20)*(length / 2 + 20))){
 		explode = 1;
 		m_mode = 2;
-		explode_x = m_iCurrentScreenX;
-		explode_y = m_iCurrentScreenY;
+		explode_x = iCurrentScreenX;
+		explode_y = iCurrentScreenY;
 	}
 
 	// tile animation
@@ -106,7 +106,8 @@ void HookObject::Draw()
 
 void HookObject::DoUpdate(int iCurrentTime)
 {
-	if (m_mode == 0 && GetEngine()->IsKeyPressed(SDLK_DOWN)){
+	GetEngine()->UpdateMouseInfo();
+	if (m_mode == 0 && (GetEngine()->IsKeyPressed(SDLK_DOWN) || GetEngine()->GetCurrentButtonStates() == 1)) {
 		m_mode = 1;
 		//RedrawWholeScreen();
 		//the speed should differ from angle
@@ -186,14 +187,13 @@ void HookObject::Pull()
 
 void HookObject::Back()
 {
-	
 	m_speedX = initial_speedX * speedParameter;
 	m_speedY = initial_speedY * speedParameter;
 	iCurrentScreenX -= m_speedX;
 	iCurrentScreenY -= m_speedY;
 
 	//in case the vibration
-	if ((iCurrentScreenX > m_PosX - 2 || iCurrentScreenX < m_PosX + 2) && iCurrentScreenY < m_PosY + 2){
+	if ((iCurrentScreenX > m_PosX - 1 || iCurrentScreenX < m_PosX + 1) && iCurrentScreenY < m_PosY + 1){
 		m_mode = 0;
 		iCurrentScreenX = m_PosX;
 		iCurrentScreenY = m_PosY;
