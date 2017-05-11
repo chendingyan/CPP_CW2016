@@ -2,7 +2,7 @@
 
 
 BombObject::BombObject()
-	: TileManager(64,64)
+	: TileManager(60,60)
 {
 	bomb.LoadImage("./img/bomb.png");
 }

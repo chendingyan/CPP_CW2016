@@ -1,8 +1,8 @@
 #include "HookObject.h"
 #include "BombObject.h"
+#include "MainStage.h"
 
-
-HookObject::HookObject(GoldMinerEngine * pEngine, int loc_x, int loc_y, int angle = 30, int len1 = 20, int len2 = 20, string direction = "left", int rotatespeed = 3)
+HookObject::HookObject(GoldMinerEngine * pEngine, int loc_x, int loc_y, int angle = 30, int len1 = 20, int len2 = 20, string direction = "left", int rotatespeed = 3, int label = 0)
 	:DisplayableObject(pEngine),
 	m_pEngine(pEngine),
 	m_angle(angle),
@@ -26,6 +26,7 @@ HookObject::HookObject(GoldMinerEngine * pEngine, int loc_x, int loc_y, int angl
 	, t_value(20)
 	, mloc_x(loc_x)
 	, mloc_y(loc_y)
+	, bomblabel(label)
 {
 	m_iCurrentScreenX = m_iPreviousScreenX = iCurrentScreenX = m_PosX = GetEngine()->GetScreenWidth() / 2;	//set the hook at the middle of the width
 	m_iCurrentScreenY = m_iPreviousScreenY = iCurrentScreenY = m_PosY = 150;
@@ -68,38 +69,42 @@ void HookObject::Draw()
 	}
 	
 	//detect if the hook hooked bomb
-	BombObject &bomb = m_pEngine->GetTileManager();
-	int length = bomb.GetTileHeight();
-	int xDiff = abs(iCurrentScreenX - mloc_x);
-	int yDiff = abs(iCurrentScreenY - mloc_y);
+	StageClass * stage = m_pEngine->getStage();
+	if (stage->label == 1 && bomblabel == 0){
+		BombObject &bomb = dynamic_cast<MainStage *>(stage)->GetTileManager();
+		int length = bomb.GetTileHeight();
+		int xDiff = abs(iCurrentScreenX - mloc_x);
+		int yDiff = abs(iCurrentScreenY - mloc_y);
 
-	if (explode == 0 && (xDiff*xDiff + yDiff*yDiff < (length / 2 + 20)*(length / 2 + 20))){
-		explode = 1;
-		m_mode = 2;
-		explode_x = iCurrentScreenX;
-		explode_y = iCurrentScreenY;
-	}
+		if (explode == 0 && (xDiff*xDiff + yDiff*yDiff < (length / 2 + 20)*(length / 2 + 20))){
+			explode = 1;
+			m_mode = 2;
+			explode_x = iCurrentScreenX;
+			explode_y = iCurrentScreenY;
+		}
 
-	// tile animation
-	if (explode == 1 && t_value > 5){
-		t_value -= 1;
-		for (int i = 0; i < 3; i++){
-			for (int j = 0; j < 3; j++){
-				bomb.UpdateTile(m_pEngine, i, j, t_value);
+		// tile animation
+		if (explode == 1 && t_value > 5){
+			t_value -= 1;
+			for (int i = 0; i < 3; i++){
+				for (int j = 0; j < 3; j++){
+					bomb.UpdateTile(m_pEngine, i, j, t_value);
+				}
 			}
 		}
-	}
 
-	if (t_value == 5){
-		for (int i = 0; i < 3; i++){
-			for (int j = 0; j < 3; j++){
-				bomb.UpdateTile(m_pEngine, i, j, -1);
+		if (t_value == 5){
+			for (int i = 0; i < 3; i++){
+				for (int j = 0; j < 3; j++){
+					bomb.UpdateTile(m_pEngine, i, j, -1);
+				}
 			}
+			t_value = -1;
+			explode = -1;
 		}
-		t_value = -1;
-		explode = -1;
-	}
 
+	}
+	
 	StoreLastScreenPositionForUndraw();
 }
 

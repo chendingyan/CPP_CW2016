@@ -25,6 +25,9 @@
     <Filter Include="Source Files\Demos">
       <UniqueIdentifier>{43825ca5-b5e1-402d-a57a-be1b7f41d1ae}</UniqueIdentifier>
     </Filter>
+    <Filter Include="stages">
+      <UniqueIdentifier>{87bb6c85-7e9c-4702-b73e-3f3b60ddaeca}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="header.h">
@@ -120,23 +123,44 @@
     <ClInclude Include="BombObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="StageClass.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="InitialStage.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GoldMinerEngine.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BadPigObject.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="FindPathAlgorithm.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Point.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="WinStage.h">
+      <Filter>stages</Filter>
+    </ClInclude>
+    <ClInclude Include="StageClass.h">
+      <Filter>stages</Filter>
+    </ClInclude>
+    <ClInclude Include="ScoreStage.h">
+      <Filter>stages</Filter>
+    </ClInclude>
+    <ClInclude Include="SetNameStage.h">
+      <Filter>stages</Filter>
+    </ClInclude>
+    <ClInclude Include="MainStage.h">
+      <Filter>stages</Filter>
+    </ClInclude>
+    <ClInclude Include="PauseStage.h">
+      <Filter>stages</Filter>
+    </ClInclude>
+    <ClInclude Include="LoseStage.h">
+      <Filter>stages</Filter>
+    </ClInclude>
+    <ClInclude Include="IntroStage.h">
+      <Filter>stages</Filter>
+    </ClInclude>
+    <ClInclude Include="InitialStage.h">
+      <Filter>stages</Filter>
+    </ClInclude>
+    <ClInclude Include="GoalStage.h">
+      <Filter>stages</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -239,10 +263,31 @@
     <ClCompile Include="BadPigObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="FindPathAlgorithm.cpp">
+    <ClCompile Include="Point.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Point.cpp">
+    <ClCompile Include="MainStage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PauseStage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WinStage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IntroStage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SetNameStage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GoalStage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="LoseStage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ScoreStage.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -92,7 +92,7 @@
     <ClInclude Include="BombObject.h" />
     <ClInclude Include="DiamondObject.h" />
     <ClInclude Include="DynamicObject.h" />
-    <ClInclude Include="FindPathAlgorithm.h" />
+    <ClInclude Include="GoalStage.h" />
     <ClInclude Include="GoldMinerEngine.h" />
     <ClInclude Include="GoldObject.h" />
     <ClInclude Include="header.h" />
@@ -102,10 +102,16 @@
     <ClInclude Include="HookableObject.h" />
     <ClInclude Include="HookObject.h" />
     <ClInclude Include="InitialStage.h" />
+    <ClInclude Include="IntroStage.h" />
     <ClInclude Include="JPGImage.h" />
+    <ClInclude Include="LoseStage.h" />
+    <ClInclude Include="MainStage.h" />
     <ClInclude Include="MovementPosition.h" />
+    <ClInclude Include="PauseStage.h" />
     <ClInclude Include="PigObject.h" />
     <ClInclude Include="Point.h" />
+    <ClInclude Include="ScoreStage.h" />
+    <ClInclude Include="SetNameStage.h" />
     <ClInclude Include="StageClass.h" />
     <ClInclude Include="StaticObject.h" />
     <ClInclude Include="StoneObject.h" />
@@ -125,25 +131,32 @@
     <ClInclude Include="Demo4Object.h" />
     <ClInclude Include="Demo4TileManager.h" />
     <ClInclude Include="SimpleDemo.h" />
+    <ClInclude Include="WinStage.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BadPigObject.cpp" />
     <ClCompile Include="BombObject.cpp" />
     <ClCompile Include="DiamondObject.cpp" />
     <ClCompile Include="DynamicObject.cpp" />
-    <ClCompile Include="FindPathAlgorithm.cpp" />
+    <ClCompile Include="GoalStage.cpp" />
     <ClCompile Include="GoldMinerEngine.cpp" />
     <ClCompile Include="GoldObject.cpp" />
     <ClCompile Include="HookableObject.cpp" />
     <ClCompile Include="HookObject.cpp" />
     <ClCompile Include="InitialStage.cpp" />
+    <ClCompile Include="IntroStage.cpp" />
+    <ClCompile Include="LoseStage.cpp" />
     <ClCompile Include="mainfunction.cpp" />
     <ClCompile Include="BaseEngine.cpp" />
     <ClCompile Include="DisplayableObject.cpp" />
     <ClCompile Include="FontManager.cpp" />
     <ClCompile Include="JPGImage.cpp" />
+    <ClCompile Include="MainStage.cpp" />
+    <ClCompile Include="PauseStage.cpp" />
     <ClCompile Include="PigObject.cpp" />
     <ClCompile Include="Point.cpp" />
+    <ClCompile Include="ScoreStage.cpp" />
+    <ClCompile Include="SetNameStage.cpp" />
     <ClCompile Include="SimpleDemo.cpp" />
     <ClCompile Include="StageClass.cpp" />
     <ClCompile Include="StaticObject.cpp" />
@@ -162,6 +175,7 @@
     <ClCompile Include="Demo4Main.cpp" />
     <ClCompile Include="Demo4Object.cpp" />
     <ClCompile Include="Demo4TileManager.cpp" />
+    <ClCompile Include="WinStage.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

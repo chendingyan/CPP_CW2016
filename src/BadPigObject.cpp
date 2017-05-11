@@ -151,153 +151,10 @@ void BadPigObject::DoUpdate(int iCurrentTime)
 		}
 	}
 	
-	//if (diamond_help != -1){
-	//	DiamondSearchAlgorithm();
-	//}
-
-	//if (diamond_loc[0] != 0){
-	//	m_mode = HookableObject::isHooked();
-	//	if (diamond_help == 0){
-	//		if (m_iCurrentScreenX < diamond_loc[0]){
-	//			m_iCurrentScreenX++;
-	//			direction = 2;//right
-	//			if (m_iCurrentScreenY < diamond_loc[1]){
-	//				m_iCurrentScreenY++;
-	//			}
-	//			else if (m_iCurrentScreenY> diamond_loc[1]){
-	//				m_iCurrentScreenY--;
-	//			}
-	//		}
-	//		else{
-	//			m_iCurrentScreenX--;
-	//			direction = 1;
-	//			if (m_iCurrentScreenY < diamond_loc[1]){
-	//				m_iCurrentScreenY++;
-	//			}
-	//			else{
-	//				m_iCurrentScreenY--;
-	//			}
-	//		}
-	//	}
-	//	else{
-	//		updown++;
-	//		if ((int)(iCurrentTime / 500) % 2 == 0){
-	//			m_iCurrentScreenY++;
-	//		}
-	//		else{
-	//			m_iCurrentScreenY--;
-	//		}
-	//	}
-	//	RedrawObjects();
-	//}
-	//else{
-	//	switch (direction)
-	//	{
-	//	case 1:
-	//		m_iCurrentScreenX -= m_speed;
-	//		if (m_iCurrentScreenX < 10){
-	//			direction = 2;
-	//		}
-	//		for (int i = 1; i < m_pEngine->obj_num; i++){
-	//			HookableObject * obj = dynamic_cast<HookableObject*> (GetEngine()->GetDisplayableObject(i));
-	//			if (obj != NULL){
-	//				if (CollsionDetection(obj)){
-	//					direction = 2;
-	//				}
-	//			}
-	//			
-	//		}
-	//		break;
-	//	case 2:
-	//		iCurrentScreenX += m_speed;
-	//		m_iCurrentScreenX = iCurrentScreenX;
-	//		if (iCurrentScreenX > 720){
-	//			direction = 1;
-	//		}
-	//		for (int i = 1; i < m_pEngine->obj_num; i++){
-	//			HookableObject* obj = dynamic_cast<HookableObject*> (GetEngine()->GetDisplayableObject(i));
-	//			if (obj != NULL){
-	//				if (CollsionDetection(obj)){
-	//					direction = 1;
-	//				}
-	//			}
-	//			
-	//		}
-	//		break;
-	//	default:
-	//		break;
-	//	}
 		m_mode = isHooked();
-	//}
 }
 
 
-void BadPigObject::DiamondSearchAlgorithm()
-{
-	num_of_diamond = m_pEngine->diamond_num;
-	int obj_num = m_pEngine->obj_num;
-	int gs_num = m_pEngine->gs_num;
-	int counter = 0;
-	int diamond_visit = 0;
-	DisplayableObject * object;
-
-	for (int i = gs_num+1; i <= obj_num; i++){
-		object = m_pEngine->GetDisplayableObject(i);
-		DiamondObject * diamond = dynamic_cast<DiamondObject *>(object);
-
-		if (diamond == NULL){
-			return;
-		}
-		int dx = diamond->m_PosX;
-		int dy = diamond->m_PosY;
-		if (diamond->IsVisible()){
-			if (m_mode != 0){
-				diamond->pigLeaves();
-				diamond_loc[0] = 0;
-				diamond_help = -1;
-				return;
-			}
-
-			if (diamond_help == 0){
-				if (m_iCurrentScreenX < dx + 2 && m_iCurrentScreenY < dy + 2 && m_iCurrentScreenY > dy - 2 && m_iCurrentScreenX > dx - 2){
-					diamond_help = 1;
-					diamond->PigComes();
-				}
-				counter = 0;
-				int distance = (m_iCurrentScreenX - dx)*(m_iCurrentScreenX - dx) + (m_iCurrentScreenY - dy)*(m_iCurrentScreenY - dy);
-
-				if (distance < min){
-					min = distance;
-					diamond_loc[counter] = dx;
-					counter++;
-					diamond_loc[counter] = dy;
-				}
-			}
-			else{
-				if (updown > 40 && diamond->arrived == 1){
-					diamond->pigWaits();
-					updown = 0;
-				}
-			}
-		}
-		else{
-			diamond_visit++;
-			if (diamond->arrived == 1){
-				diamond->pigLeaves();
-				diamond_help = 0;
-			}
-			if (dx == diamond_loc[0] && dy == diamond_loc[1]){
-				diamond_loc[0] = 0;
-				diamond_loc[1] = 1;
-				min = 1000000;
-				diamond_help = 0;
-			}
-		}
-	}
-	if (diamond_visit == num_of_diamond){
-		diamond_help = -1;
-	}
-}
 
 
 int BadPigObject::readDiamondPos()
@@ -363,7 +220,7 @@ void BadPigObject::InitColony()
 	{
 		for (j = 1; j<num_diamond; j++)
 		{
-			r = rand() % (num_diamond - 1) + 1;//产生1～CITY_NUM-1之间的随机数
+			r = rand() % (num_diamond - 1) + 1;//random a number between 1 and number of diamond
 			while (check(i, j, r))
 			{
 				r = rand() % (num_diamond - 1) + 1;
@@ -381,7 +238,7 @@ void BadPigObject::CalFitness()
 	double Distance[POPSIZE];
 	for (i = 0; i<POPSIZE; i++)
 	{
-		//求适应值
+		//calculate fitness value
 		Distance[i] = 0;
 		for (j = 1; j <= num_diamond; j++)
 		{
@@ -393,7 +250,7 @@ void BadPigObject::CalFitness()
 
 	}
 	double k = fitness[0];        //city->fitness[0];
-	int best = 0;               //种群中最好的那一个路径的下标
+	int best = 0;               
 	for (i = 1; i<POPSIZE; i++)
 	{
 		if (k<fitness[i]){
@@ -401,7 +258,7 @@ void BadPigObject::CalFitness()
 			best = i;
 		}
 	}
-	//如果是最优值，更新最优值
+	//update the best fitness value
 	if (k > BestFitness) {
 		BestFitness = k;     //city->BestFitness = k;
 		BestValue = Distance[best];     //city->BestValue = city->Distance[best];
@@ -419,17 +276,17 @@ void BadPigObject::Select()
 	for (int i = 0; i < POPSIZE; i++){
 		newGroup[i] = new int[num_diamond+1];
 	}
-	//计算总适应度之和
+	//calculate the sum of fitness value
 	double allfitness = 0;
 	for (int i = 0; i < POPSIZE; i++) {
 		allfitness += fitness[i];
 	}
 	int cnt = 0;
-	//开始选择，随机生成随机数，用轮盘赌算法，选择出来POPSIZE大小的种群
+	//Use RWS to select
 	puts("Begin Select...");
 	while (cnt < POPSIZE)
 	{
-		double r = rand() % (100) / (double)(100);        //100??
+		double r = rand() % (100) / (double)(100);        
 		double sum = 0;
 		int i;
 		for (i = 0; i < POPSIZE; i++)
@@ -441,7 +298,6 @@ void BadPigObject::Select()
 			}
 		}
 		//cout << r << " " << sum << " " << i << endl;
-		//先将选择出来的值放到一个临时数组中
 		for (int j = 0; j <= num_diamond; j++)
 		{
 			newGroup[cnt][j] = group[i][j];
@@ -465,14 +321,10 @@ void BadPigObject::OXCross(int i)
 {
 	int *pop1 = new int [num_diamond];
 	int *pop2 = new int [num_diamond];
-	//生成两个随机数
 	int r1 = rand() % (num_diamond - 1) + 1;
 	int r2 = rand() % (num_diamond - 1) + 1;
 	if (r1 > r2) swap(r1, r2);
-	//将随机数之间的进行交换，放到最左边
-	//然后把原种群放在最右边，并去掉重复的城市
 	int len = r2 - r1 + 1;
-	//对种群一的操作
 	for (int j = 1; j <= len; j++)
 	{
 		pop1[j] = group[i + 1][r1 + j - 1];
@@ -496,7 +348,6 @@ void BadPigObject::OXCross(int i)
 		cnt++;
 
 	}
-	//对种群2的操作
 	j = len + 1;
 	cnt = 1;
 	while (j < num_diamond && cnt < num_diamond)
@@ -530,7 +381,6 @@ void BadPigObject::Cross(double pc)
 		if (r < pc)
 		{
 			puts("Begin Cross...");
-			//printf("个体%d与个体%d进行交叉", i, i+1);
 			OXCross(i);
 		}
 	}
@@ -543,7 +393,7 @@ void BadPigObject::OnCVariation(int i)
 	//printf("population %d %dtimes Vriation\n", i, k);
 	for (int j = 1; j <= k; j++)
 	{
-		//随机选两个点进行交换变异操作
+		//random two point and make a 2-PTX crossover
 		int r1 = rand() % (num_diamond - 1) + 1;
 		int r2 = rand() % (num_diamond - 1) + 1;
 		while (r1 == r2)
@@ -569,17 +419,17 @@ void BadPigObject::Mutation(double pm)
 		}
 	}
 }
-
-
-void BadPigObject::OutPut()
-{
-	if (BestRooting != NULL){
-		for (int i = 0; i<num_diamond + 1; i++){
-			printf("%5d", BestRooting[i]);
-		}
-	}
-	printf("\n");
-}
+//
+//
+//void BadPigObject::OutPut()
+//{
+//	if (BestRooting != NULL){
+//		for (int i = 0; i<num_diamond + 1; i++){
+//			printf("%5d", BestRooting[i]);
+//		}
+//	}
+//	printf("\n");
+//}
 
 
 void BadPigObject::work()
@@ -588,22 +438,22 @@ void BadPigObject::work()
 	seed = (unsigned)time(0);
 	srand(seed);
 
-	MaxEpoc = 2000;
+	MaxEpoc = 500;
 	pcross = 0.6;
 	pmutation = 0.05;
-	initDistMatrix();//求城市间两两之间的距离
+	initDistMatrix();
 
-	InitColony();//生成初始种群
+	InitColony();//Initial colony
 	printf("hi");
-	CalFitness();//计算适应值,考虑应该在这里面把最优选出来
-	OutPut();
+	CalFitness();
+	//OutPut();
 	for (i = 0; i<MaxEpoc; i++)
 	{
 		printf("%d time Population iteration\n", i);
-		Select();//选择(复制)
-		Cross(pcross);//交叉
-		Mutation(pmutation);//变异
-		CalFitness();//计算适应值
+		Select();
+		Cross(pcross);
+		Mutation(pmutation);
+		CalFitness();
 	}
-	OutPut();//输出
+	//OutPut();
 }

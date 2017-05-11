@@ -10,7 +10,7 @@ class HookObject :
 	public DisplayableObject
 {
 public:
-	HookObject(GoldMinerEngine * pEngine, int loc_x, int loc_y, int angle, int len1, int len2, string direction, int rotatespeed);
+	HookObject(GoldMinerEngine * pEngine, int loc_x, int loc_y, int angle, int len1, int len2, string direction, int rotatespeed, int label);
 	~HookObject();
 	void Draw();
 	void DoUpdate(int iCurrentTime);
@@ -45,5 +45,6 @@ public:
 	int t_value;
 	int mloc_x;
 	int mloc_y;
+	int bomblabel;
 };
 

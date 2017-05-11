@@ -106,9 +106,9 @@ void HookableObject::BombDetection()
 		for (int i = 1; i < 50; i++){
 			HookableObject * object = dynamic_cast<HookableObject*>(m_pEngine->GetDisplayableObject(i));
 			if (object != NULL){
-				int dx = object->m_PosX+ m_SizeX/2 - m_pEngine->tilex - 64;
-				int dy = object->m_PosY+ m_SizeY/2 - m_pEngine->tiley - 64;
-				if (dx * dx + dy *dy < 64 * 64){
+				int dx = object->m_PosX+ m_SizeX/2 - m_pEngine->tilex - 60;
+				int dy = object->m_PosY+ m_SizeY/2 - m_pEngine->tiley - 60;
+				if (dx * dx + dy *dy < 60 * 60){
 					//SetVisible(false);
 					m_pEngine->StoreObjectInArray(i, NULL);
 				}

@@ -15,11 +15,6 @@ public:
 
 	void Draw();
 	void DoUpdate(int iCurrentTime);
-	int arrived;
-	bool isleave;
-	int time;//the time the pig on the diamond
-	void PigComes();
-	void pigLeaves();
-	void pigWaits();
+	
 };
 

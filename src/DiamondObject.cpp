@@ -17,9 +17,7 @@ DiamondObject::DiamondObject(GoldMinerEngine * pEngine, int sizeX, int sizeY, in
 
 	m_iStartDrawPosX = 0;
 	m_iStartDrawPosY = 0;
-	arrived = 0;
-	isleave = false;
-	time = 5;
+	
 
 	
 	diamond.LoadImage("./img/diamond.png");
@@ -59,30 +57,7 @@ void DiamondObject::DoUpdate(int iCurrentTime)
 	if (!IsVisible()){
 		return;
 	}
-	if (time < 0){
-		SetVisible(false);
-		return;
-	}
+	
 	HookableObject::DoUpdate(iCurrentTime);
 	m_mode = HookableObject::isHooked();
-}
-
-
-void DiamondObject::PigComes()
-{
-	arrived = 1;
-}
-
-
-void DiamondObject::pigLeaves()
-{
-	arrived = -1;
-}
-
-
-void DiamondObject::pigWaits()
-{
-	if (time > 0){
-		time--;
-	}
 }

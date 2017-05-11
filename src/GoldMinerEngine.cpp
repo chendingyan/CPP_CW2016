@@ -1,5 +1,4 @@
-#include "header.h"
-#include "templates.h"
+
 #include "GoldMinerEngine.h"
 #include "GoldObject.h"
 #include "DiamondObject.h"
@@ -11,18 +10,24 @@
 #include <fstream> 
 #include <list>
 #include "JPGImage.h"
-
-// goals for each level (10 in total)
-const int GoldMinerEngine::goals[] = { 0, 200, 400, 600, 800, 1200, 1500, 2000, 2300, 3000 };
-char default_name[50] = "Name";
-
+#include "InitialStage.h"
+#include "MainStage.h"
+#include "PauseStage.h"
+#include "WinStage.h"
+#include "IntroStage.h"
+#include "SetNameStage.h"
+#include "GoalStage.h"
+#include "LoseStage.h"
+#include "ScoreStage.h"
 using namespace std;
+// goals for each level (10 in total)
+const int GoldMinerEngine::goals[] = { 200, 400, 800, 1000, 1200, 1500, 1800, 2200, 2800, 3000 };
+char default_name[50] = "Name";
 GoldMinerEngine::GoldMinerEngine()
 	: BaseEngine(6)
 	, obj_num(10) //object number
 	, level(1)
 	, score(0)
-	, m_state(stateInit)
 	, ini_time(ROUND_TIME) // game time
 	, rem_time(ROUND_TIME) // remaining time
 	, rst_time(0)
@@ -30,7 +35,11 @@ GoldMinerEngine::GoldMinerEngine()
 	, gold_num(3)
 	, stone_num(5)
 	, l_tick(0)	
-	, char_counter(-1)
+	, char_counter(-1)// used in set name
+	, name_x(300)
+	, name_inix(320)
+	, name_y(520)
+	, stage(new InitialStage(this))
 {
 	bg_img.LoadImage("./img/background-ppt.png");
 	start_button.LoadImage("./img/start.jpg");
@@ -41,10 +50,7 @@ GoldMinerEngine::GoldMinerEngine()
 	bg3.LoadImage("./img/bg3.png");
 	bg4.LoadImage("./img/bg4.png");
 	score_bg.LoadImage("./img/score_bk.jpg");
-
-	name_x = name_inix = 350;
-	name_y = 520;
-   
+	
 	gs_num = obj_num - diamond_num; //gs_num is the sum of gold and stone number
 	tilex = 10 * (rand() % 50 + 10);//bombPosX;
 	tiley = 10 * (rand() % 20 + 20);
@@ -58,108 +64,7 @@ GoldMinerEngine::~GoldMinerEngine()
 
 
 void GoldMinerEngine::SetupBackgroundBuffer(void){
-
-	// set up bomb
-	int bucket[3][3] = { { 0, 0, 0 }, { 0, 1, 0 }, { 0, 0, 0 } };
-	char buf[20];
-	switch (m_state)
-	{
-	case GoldMinerEngine::stateInit:
-		bg_img.RenderImage(this->GetBackground(),
-			0, 0,
-			0, 0,
-			bg_img.GetWidth(), bg_img.GetHeight());
-		start_button.RenderImage(this->GetBackground(),
-			0, 0,
-			80, 470,
-			start_button.GetWidth(), start_button.GetHeight());
-		score_button.RenderImage(this->GetBackground(),
-			0, 0,
-			420, 470,
-			score_button.GetWidth(), score_button.GetHeight());
-		break;
-	case GoldMinerEngine::stateGetName:
-		bg_img.RenderImage(this->GetBackground(),
-			0, 0,
-			0, 0,
-			bg_img.GetWidth(), bg_img.GetHeight());
-		DrawBackgroundString(240, 470, "Enter Your Name", 0xffffff, NULL);
-		if (char_counter == -1){
-			DrawBackgroundString(name_inix, name_y, default_name, 0xf4901e, NULL);
-		}
-		break;
-	case GoldMinerEngine::stateIntro:
-		instruction_img.RenderImage(this->GetBackground(),
-			0, 0,
-			0, 0,
-			instruction_img.GetWidth(), instruction_img.GetHeight());;
-		break;
-	case GoldMinerEngine::stateMain:
-		FillBackground(0x854e1f);
-		bg1.RenderImageWithMask(this->GetBackground(),
-			0, 0,
-			0, 0,
-			GetScreenWidth(), GBK_Y);
-		stone_bomber.SetSize(3, 3);
-		// Set up the tiles
-		for (int x = 0; x < 3; x++){
-			for (int y = 0; y < 3; y++){
-				stone_bomber.SetValue(x, y, bucket[x][y]);
-			}
-		}
-		// Specify the screen x,y of top left corner
-		stone_bomber.SetBaseTilesPositionOnScreen(tilex, tiley);
-		// Tell it to draw tiles from x1,y1 to x2,y2 in tile array,
-		// to the background of this screen
-		stone_bomber.DrawAllTiles(this, this->GetBackground(), 0, 0, 2, 2);
-		//printf("get tile value %d\n", m_oTiles.GetValue(150,450));
-		break;
-	case GoldMinerEngine::statePaused:
-		break;
-	case GoldMinerEngine::stateGoal:
-		FillBackground(0x000000);
-		score_bg.RenderImage(this->GetBackground(), 0, 0, 0, 0, score_bg.GetWidth(), score_bg.GetHeight());
-		DrawBackgroundThickLine(0, 500, 800, 500, 0xffffff, 4);
-		sprintf(buf, "Level %d", level);
-		DrawBackgroundString(350, 360, buf, 0xf4901e, NULL);
-		sprintf(buf, "Goal: %d", goals[level-1]);
-		DrawBackgroundString(350, 410, buf, 0xf4901e, NULL);
-		sprintf(buf, "Press space to start");
-		DrawBackgroundString(350, 460, buf, 0xffffff, NULL);
-		break;
-	case GoldMinerEngine::stateScore:
-		score_bg.RenderImage(this->GetBackground(),
-			0, 0,
-			0, 0,
-			score_bg.GetWidth(), score_bg.GetHeight());
-		break;
-	case GoldMinerEngine::stateWin:
-		FillBackground(0x000000);
-		sprintf(buf, "You Passed all! :)");
-		DrawBackgroundString(120, 200, buf, 0xf4901e, NULL);
-		sprintf(buf, "Score: %d  Level: %d", score, level);
-		DrawBackgroundString(120, 250, buf, 0xf4901e, NULL);
-		sprintf(buf, "Well done %s", name);
-		DrawBackgroundString(120, 300, buf, 0xf4901e, NULL);
-		sprintf(buf, "Press space");
-		DrawBackgroundString(120, 460, buf, 0xffffff, NULL);
-		DrawBackgroundThickLine(0, 500, 800, 500, 0xffffff, 3);
-		break;
-	case GoldMinerEngine::stateLose:
-		FillBackground(0x000000);
-		sprintf(buf, "Game End");
-		DrawBackgroundString(120, 200, buf, 0xf4901e, NULL);
-		sprintf(buf, "Score: %d  Level: %d", score, level);
-		DrawBackgroundString(120, 250, buf, 0xf4901e, NULL);
-		sprintf(buf, "Well done %s", name);
-		DrawBackgroundString(120, 300, buf, 0xf4901e, NULL);
-		sprintf(buf, "Press space");
-		DrawBackgroundString(120, 460, buf, 0xffffff, NULL);
-		DrawBackgroundThickLine(0, 500, 800, 500, 0xffffff,3);
-		break;
-	default:
-		break;
-	}
+	stage->SetBackground();
 }
 
 
@@ -169,31 +74,23 @@ int GoldMinerEngine::InitialiseObjects(){
 	DrawableObjectsChanged();
 	// Destroy any existing objects
 	DestroyOldObjects();
-	printf("!!!!\n");
-	/*if (m_state == stateMain){
-		
-	}
-		*/
+	
 	CreateObjectArray(100);
-	//StoreObjectInArray(0, new GoldObject(this, 53, 47, 200, 200));
-	//StoreObjectInArray(1, new GoldObject(this, 50, 50, 630, 310));
-	//	StoreObjectInArray(2, new GoldObject(this, 93, 95, 400, 280));
-	//	StoreObjectInArray(3, new StoneObject(this, 50, 50, 330, 250));
-	//	StoreObjectInArray(4, new DiamondObject(this, 67, 50, 300, 400));
-	//	StoreObjectInArray(5, new PigObject(this, 49, 48, 700, 170, 1));
-	//	int tx = tilex + (1.5*tile_width);
-	//	int ty = tiley + (1.5*tile_width);
-	//	StoreObjectInArray(HOOKID, new HookObject(this, tx, ty, 30, 20, 10, "right", 1));
+	/*tilex = 0;
+	tiley = 150;
+	tile_width = 60;*/
 	int tx = tilex + (1.5*tile_width);
 	int ty = tiley + (1.5*tile_width);
+	printf("tx = %d, ty = %d", tx, ty);
+	StoreObjectInArray(HOOKID, new HookObject(this, tx, ty, 30, 10, 5, "right", 1, 0));
 	int randomx = 70 * rand() % 10;
 	int randomy = 50 * (rand() % 4 + 6);
-	set_up(stone_num, gold_num,diamond_num);
+	InitialisePosition(stone_num, gold_num,diamond_num);
 	StoreObjectInArray(16, new PigObject(this, 49, 48, randomx, randomy, 1));
 	randomx = 50 * (rand() % 12);
 	randomy = 50 * (rand() % 3 + 6);
 	StoreObjectInArray(17, new PigObject(this, 49, 48, randomx, randomy, 1));
-	StoreObjectInArray(HOOKID, new HookObject(this, tx, ty, 30, 10, 5, "right", 1));
+	
 	randomx = 70 * rand() % 10;
 	randomy = 50 * (rand() % 4 + 6);
 	//StoreObjectInArray(30, new BadPigObject(this, 40, 35, randomx+100, randomy, 1));
@@ -203,7 +100,7 @@ int GoldMinerEngine::InitialiseObjects(){
 /*Initialize the position of all the stable objects
 Uniform distribution algorithm
 */
-void GoldMinerEngine::set_up(int stone_num, int gold_num, int diamond_num){
+void GoldMinerEngine::InitialisePosition(int stone_num, int gold_num, int diamond_num){
 	int item_number = 0;
 	int tempx;
 	int tempy;
@@ -227,113 +124,79 @@ void GoldMinerEngine::set_up(int stone_num, int gold_num, int diamond_num){
 	int helpx[20] = { centerx };
 	int helpy[20] = { centery };
 
-	/* Assume all the stable objects are in the biggest size (100*100, the stone size) and
-	each object is a circle with radius of 100.Then generate obj_num-1 random numbers 
-	(excluding the center point, which will also be a coordination for a stable object). 
-	They are center of the circles which are disjoint from the current center circle*/
 
-	while (item_number < obj_num - 1){
-		tempx = 10 * (rand() % 50 + 10);
-		tempy = 10 * (rand() % 10 + 30);
-		xdiff = tempx - centerx;
-		ydiff = tempy - centery;
-		if ((xdiff*xdiff + ydiff*ydiff) >= 200 * 200){
-			item_number++;
-			helpx[item_number] = tempx;
-			helpy[item_number] = tempy;
-		}
-	}
+	//Use helpx and helpy array to store all the coordinates of object
+	//To make it more distribution, we random number in a uniform distribution way
+
 	
+	int randwidth = 600;
+	while (randwidth > 0 && item_number < obj_num){
+		tempx = rand() % (randwidth+100);
+		tempy = 10 * (rand() % 30 + 25);
+		while (tempx < randwidth){
+			tempx = rand() % (randwidth+100);
+			tempy = 10 * (rand() % 30 + 25);
+		}
+
+		helpx[item_number] = tempx;
+		helpy[item_number] = tempy;
+		item_number++;
+		randwidth -= (randwidth / obj_num);
+	}
 	/* Make the disribution more uniform*/
 	for (int i = 0; i < obj_num; i++){
-		x = (double)(cos(angle*M_PI / 180) * 100);
-		y = (double)(sin(angle* M_PI / 180) * 100);
-		xlist[i] = (int)(x + helpx[i]);
-		ylist[i] = (int)(y + helpy[i]);
+		x = (double)(cos(angle*M_PI / 180) * 40);
+		y = (double)(sin(angle* M_PI / 180) * 40);
+		xlist[i] = (int)(helpx[i]);
+		if (helpy[i] > 250 && helpy[i] < 500){
+			ylist[i] = (int)(y + helpy[i]);
+		}
+		else{
+			ylist[i] = (int)(helpy[i]);
+		}
+		
 		angle += (int)(360 /obj_num);
 	}
 	
 	// add all the stable objects in
-	for (index = 1; index <= stone_num; index++){
-		StoreObjectInArray(index, new StoneObject(this, 50, 50, xlist[index], ylist[index]));   // stone
-	}
+	if (level != 1){
+		for (index = 1; index <= stone_num; index++){
+			StoreObjectInArray(index, new StoneObject(this, 50, 50, xlist[index], ylist[index]));   // stone
+		}
 
-	for (index; index <= gs_num-2; index++){
-		StoreObjectInArray(index, new GoldObject(this, 50, 50, xlist[index], ylist[index]));   // gold
-	}
+		for (index; index <= gs_num - 2; index++){
+			StoreObjectInArray(index, new GoldObject(this, 50, 50, xlist[index], ylist[index]));   // gold
+		}
 
-	for (index; index <= gs_num; index++){
-		StoreObjectInArray(index, new GoldObject(this, 60, 61, xlist[index], ylist[index])); //big-gold
-	}
+		for (index; index <= gs_num; index++){
+			StoreObjectInArray(index, new GoldObject(this, 60, 61, xlist[index], ylist[index])); //big-gold
+		}
 
-	for (index; index <= obj_num; index++){
-		StoreObjectInArray(index, new DiamondObject(this, 67, 50, xlist[index], ylist[index]));   // diamond
+		for (index; index <= obj_num; index++){
+			StoreObjectInArray(index, new DiamondObject(this, 67, 50, xlist[index], ylist[index]));   // diamond
+		}
 	}
+	else{
+		StoreObjectInArray(1, new StoneObject(this, 50, 50, 30, 500));
+		StoreObjectInArray(2, new StoneObject(this, 50, 50, 320, 180));
+		StoreObjectInArray(3, new StoneObject(this, 50, 50, 670, 300));
+		StoreObjectInArray(4, new StoneObject(this, 50, 50, 100, 190));
+		StoreObjectInArray(5, new StoneObject(this, 50, 50, 310, 470));
+		StoreObjectInArray(6, new GoldObject(this, 53, 47, 500, 500));
+		StoreObjectInArray(7, new GoldObject(this, 50, 50, 40, 200));
+		StoreObjectInArray(8, new GoldObject(this, 60, 61, 100, 290));
+		StoreObjectInArray(9, new DiamondObject(this, 76, 50, 160, 320));
+		StoreObjectInArray(10, new DiamondObject(this, 76, 50, 400, 220));
+	}
+	
 }
 
 void GoldMinerEngine::MouseDown(int iButton, int iX, int iY){
-	switch (m_state)
-	{
-	case GoldMinerEngine::stateInit:	
-		// start game 
-		if (iX>80 && iX< 330 && iY > 470 && iY < 557){
-				m_state = stateGetName;
-				// Force redraw of background
-				SetupBackgroundBuffer();
-				// Redraw the whole screen now
-				Redraw(true);
-		}
-		// display the score
-		if (iX>420 && iX < 708 && iY> 470 && iY < 557){
-			m_state = stateScore;
-			// Force redraw of background
-			SetupBackgroundBuffer();
-			// Redraw the whole screen now
-			Redraw(true);
-			DisplayResults();
-		}
-		break;
-	
-	default:
-		break;
-	}
-	
+	stage->MousePressed(iButton, iX, iY);
 }
 
 void GoldMinerEngine::DrawStringsOnTop(){
-	char buff[128];
-	switch (m_state)
-	{
-	case GoldMinerEngine::stateInit:		
-		break;
-	case GoldMinerEngine::stateGetName:
-		break;
-	case GoldMinerEngine::stateMain:
-		char buf[36];
-		// display scores, goal, remaining game time and game level on the screen
-		sprintf(buf, "Score: %d", score);
-		DrawScreenString(600,10 , buf, 0x000000, NULL);
-		sprintf(buf, "Goal: %d", goals[level-1]);
-		DrawScreenString(600, 50, buf, 0xffffff, NULL);
-		rem_time = ini_time - (int)(m_iTick - rst_time) / 1000; 
-		sprintf(buff, "Time: %d",rem_time);
-		DrawScreenString(30, 50, buff, 0xffffff, NULL);
-		sprintf(buff, "Level: %d", level);
-		DrawScreenString(30, 10, buff, 0x000000, NULL);
-		break;
-	case GoldMinerEngine::statePaused:
-		ini_time = rem_time;  // record the time when game is paused
-		sprintf(buff, "GAME STOP");
-		DrawScreenString(30, 10, buff, 0x000000, NULL);
-		break;
-	case GoldMinerEngine::stateScore:
-		sprintf(buff, "SCORES");
-		DrawScreenString(50, 20, buff, 0x000000, NULL);
-		break;
-	case GoldMinerEngine::stateLose:
-		break;
-	}
-
+	stage->DrawStringsOnTheTop();
 }
 
 
@@ -343,81 +206,7 @@ Note that the objects themselves (e.g. player) may also check whether a key is p
 */
 void GoldMinerEngine::KeyDown(int iKeyCode)
 {
-	if (m_state == stateGetName){
-		GetName(iKeyCode);
-	}
-
-	// NEW SWITCH on current state
-	switch (iKeyCode)
-	{
-	case SDLK_ESCAPE: // End program when escape is pressed
-		SetExitWithCode(0);
-		break;
-	case SDLK_SPACE: // SPACE Pauses
-		switch (m_state)
-		{
-		case stateInit:
-			break;
-		case stateGetName:
-			for (int i = 0; i < char_counter; i++){
-				name[i] = default_name[i];
-			}
-			name[char_counter] = '\0';
-			printf("Hi! %s\n", name);  // Print user name
-			 //Go to state main
-			m_state = stateIntro;
-			// Force redraw of background
-			SetupBackgroundBuffer();
-			// Redraw the whole screen now
-			Redraw(true);
-			break;
-		case stateIntro:
-			m_state = stateGoal;
-			SetupBackgroundBuffer();
-			Redraw(true);
-			break;
-		case stateGoal:
-			l_tick = rst_time = GetTime(); // get start/restart time
-			m_state = stateMain;
-			SetupBackgroundBuffer();
-			Redraw(true);
-			break;
-		case stateMain:
-			// Go to state paused
-			m_state = statePaused;
-			// Work out what this does. 
-			m_iPauseStarted = GetTime();
-			// Force redraw of background
-			SetupBackgroundBuffer();
-			// Redraw the whole screen now
-			Redraw(true);
-			break;
-		case statePaused:
-			rst_time = GetTime();
-			// Go to state main
-			m_state = stateMain;
-			// Work out what this does. It will be hard to notice any difference without these, but there is one. Hint: watch the positions and sizes of the objects
-			IncreaseTimeOffset(m_iPauseStarted - rst_time);
-			break;
-		case stateLose:			
-			m_state = stateScore;
-			SetupBackgroundBuffer();
-			Redraw(true);
-			DisplayResults();
-			break;
-		case stateWin:
-			m_state = stateScore;
-			SetupBackgroundBuffer();
-			Redraw(true);
-			DisplayResults();
-			break;
-		case stateScore:
-			ResetAll();
-			break;
-			
-		} // End switch on current state
-		break; // End of case SPACE
-	}
+	stage->KeyPressed(iKeyCode);
 }
 
 
@@ -431,24 +220,7 @@ void GoldMinerEngine::GameAction()
 	// Don't act for another 1 tick - this is a difference from the base class
 	SetTimeToAct(25);
 
-	// NEW SWITCH - different from the base class
-	switch (m_state)
-	{
-	case stateInit:
-	case statePaused:
-		break;
-	case stateGoal:
-		break;
-	case stateMain:  
-		// display background animation
-		BackgroundAnimation();	
-		if (rem_time == 0){
-			OneRoundEnd();
-		}
-		// Only tell objects to move when not paused etc
-		UpdateAllObjects(GetModifiedTime());		
-		break;
-	}
+	stage->Run();
 }
 
 
@@ -456,16 +228,16 @@ void GoldMinerEngine::GameAction()
 void GoldMinerEngine::BackgroundAnimation(){
 	int diff = m_iTick - l_tick;
 	if (diff <= 3000){
-		RenderImgForBA(bg1);
+		RenderImageHelper(bg1);
 	}
 	else if (diff> 3000 && diff <= 4000){
-		RenderImgForBA(bg2);
+		RenderImageHelper(bg2);
 	}
 	else if (diff > 4000 && diff <= 6500){
-		RenderImgForBA(bg3);
+		RenderImageHelper(bg3);
 	}
 	else if (diff > 6500 && diff <= 8000){
-		RenderImgForBA(bg4);
+		RenderImageHelper(bg4);
 	}
 	else{
 		l_tick = GetTime();
@@ -473,7 +245,7 @@ void GoldMinerEngine::BackgroundAnimation(){
 }
 
 // render the images for backgroung animation
-void GoldMinerEngine::RenderImgForBA(ImageData& image){
+void GoldMinerEngine::RenderImageHelper(ImageData& image){
 	image.RenderImageWithMask(this->GetBackground(),
 		0, 0,
 		0, 0,
@@ -491,7 +263,7 @@ void GoldMinerEngine::OneRoundEnd(){
 			SetNextLevel();
 		}
 		else{  // if all the levels are finished
-			m_state = stateWin;
+			stage = new WinStage(this);
 			// Force redraw of background
 			SetupBackgroundBuffer();
 			// Redraw the whole screen now
@@ -500,7 +272,7 @@ void GoldMinerEngine::OneRoundEnd(){
 		}
 	}
 	else{  // game end
-		m_state = stateLose;
+		stage = new LoseStage(this);
 		SetupBackgroundBuffer();
 		Redraw(true);
 		StoreResults();
@@ -511,6 +283,7 @@ void GoldMinerEngine::SetNextLevel(){
 	// reset to next level
 	level++;
 	int randomx, randomy;
+	int tx, ty;
 	switch (level)
 	{
 	case 2:
@@ -523,62 +296,78 @@ void GoldMinerEngine::SetNextLevel(){
 		this->gs_num = obj_num - diamond_num;
 		DrawableObjectsChanged();
 		CreateObjectArray(100);
-		StoreObjectInArray(HOOKID, new HookObject(this, 100, 100, 30, 10, 5, "right", 1));
+		tx = tilex + (1.5*tile_width);
+		ty = tiley + (1.5*tile_width);
+		StoreObjectInArray(HOOKID, new HookObject(this, tx, ty, 30, 10, 5, "right", 1,1));
 		StoreObjectInArray(1, new DiamondObject(this, 76, 50, 40, 200));
 		StoreObjectInArray(2, new DiamondObject(this, 76, 50, 100, 290));
 		StoreObjectInArray(3, new DiamondObject(this, 76, 50, 160, 320));
 		StoreObjectInArray(4, new DiamondObject(this, 76, 50, 400, 220));
 		StoreObjectInArray(5, new DiamondObject(this, 76, 50, 470, 240));
 		StoreObjectInArray(6, new DiamondObject(this, 76, 50, 570, 420));
-		StoreObjectInArray(7, new DiamondObject(this, 76, 50, 650, 200));
+		StoreObjectInArray(7, new DiamondObject(this, 76, 50, 550, 200));
 		StoreObjectInArray(50, new BadPigObject(this, 40, 35, 400, 300, 1));
 		break;
 	case 3:
-		ResetStableObjects(15, 10, 5);  //  
-		InitialiseLevelObjects(3, 0);
-		randomx = 50 * (rand() % 12);
-		randomy = 50 * (rand() % 5 + 5);
-		StoreObjectInArray(50, new BadPigObject(this, 40, 35, randomx + 100, randomy, 1));
+		this->obj_num = 11;
+		this->gold_num = 3;
+		this->diamond_num = 5;
+		this->stone_num = obj_num - gold_num - diamond_num;
+		this->gs_num = obj_num - diamond_num;
+		DrawableObjectsChanged();
+		CreateObjectArray(100);
+		tx = tilex + (1.5*tile_width);
+		ty = tiley + (1.5*tile_width);
+		StoreObjectInArray(HOOKID, new HookObject(this, tx, ty, 30, 10, 5, "right", 1, 1));
+		StoreObjectInArray(1, new StoneObject(this, 50, 50, 30, 500));
+		StoreObjectInArray(2, new StoneObject(this, 50, 50, 320, 180));
+		StoreObjectInArray(3, new StoneObject(this, 50, 50, 670, 300));
+		StoreObjectInArray(4, new GoldObject(this, 50, 50, 100, 190));
+		StoreObjectInArray(5, new GoldObject(this, 50, 50, 310, 470));
+		StoreObjectInArray(6, new GoldObject(this, 53, 47, 500, 500));
+		StoreObjectInArray(7, new DiamondObject(this, 76, 50, 40, 200));
+		StoreObjectInArray(8, new DiamondObject(this, 76, 50, 100, 290));
+		StoreObjectInArray(9, new DiamondObject(this, 76, 50, 160, 320));
+		StoreObjectInArray(10, new DiamondObject(this, 76, 50, 400, 220));
+		StoreObjectInArray(11, new DiamondObject(this, 76, 50, 470, 240));
+		StoreObjectInArray(50, new BadPigObject(this, 40, 35, 400, 300, 1));
 		break;
 	case 4:
 		ResetStableObjects(13, 5, 4);  // three para are obs_num, diamond_num and gold_num
 		InitialiseLevelObjects(2, 0);
-		randomx = 50 * (rand() % 12);
-		randomy = 50 * (rand() % 5 + 5);
-		StoreObjectInArray(50, new BadPigObject(this, 40, 35, randomx + 100, randomy, 1));
 		break;
 	case 5:
 		obj_num = 20;
 		gs_num = 0;
-		InitialiseLevelObjects(20, 1); // PIG MODE
+		InitialiseLevelObjects(30, 1); // PIG MODE
 		break;
 	case 6:
 		ResetStableObjects(11, 4, 4);  // three para are obs_num, diamond_num and gold_num
 		InitialiseLevelObjects(2, 0);
 		break;
 	case 7:
-		ResetStableObjects(11, 3, 5);  // three para are obs_num, diamond_num and gold_num
+		ResetStableObjects(9, 4, 5);  // three para are obs_num, diamond_num and gold_num
 		InitialiseLevelObjects(0, 0);
-		randomx = 50 * (rand() % 12);
-		randomy = 50 * (rand() % 5 + 5);
-		StoreObjectInArray(50, new BadPigObject(this, 40, 35, randomx + 100, randomy, 1));
+		tx = 50 * (rand() % 12);
+		ty = 50 * (rand() % 5 + 5);
+		//StoreObjectInArray(50, new BadPigObject(this, 40, 35, randomx + 100, randomy, 1));
 		break;
 	case 8:
-		ResetStableObjects(8, 8, 3);  // three para are obs_num, diamond_num and gold_num
+		ResetStableObjects(8, 5, 3);  // three para are obs_num, diamond_num and gold_num
 		InitialiseLevelObjects(0, 0);
 		break;
-		randomx = 50 * (rand() % 12);
-		randomy = 50 * (rand() % 5 + 5);
-		StoreObjectInArray(50, new BadPigObject(this, 40, 35, randomx + 100, randomy, 1));
+		tx = 50 * (rand() % 12);
+		ty = 50 * (rand() % 5 + 5);
+		//StoreObjectInArray(50, new BadPigObject(this, 40, 35, randomx + 100, randomy, 1));
 	case 9:
-		ResetStableObjects(14, 3, 12);  // three para are obs_num, diamond_num and gold_num
+		ResetStableObjects(14, 0, 12);  // three para are obs_num, diamond_num and gold_num
 		InitialiseLevelObjects(0, 0);
 		break;
-		randomx = 50 * (rand() % 12);
-		randomy = 50 * (rand() % 5 + 5);
-		StoreObjectInArray(50, new BadPigObject(this, 40, 35, randomx + 100, randomy, 1));
+		tx = 50 * (rand() % 12);
+		ty = 50 * (rand() % 5 + 5);
+		//StoreObjectInArray(50, new BadPigObject(this, 40, 35, randomx + 100, randomy, 1));
 	case 10:
-		ResetStableObjects(12, 0, 3);  // three para are obs_num, diamond_num and gold_num
+		ResetStableObjects(12, 2, 3);  // three para are obs_num, diamond_num and gold_num
 		InitialiseLevelObjects(0, 0);
 		break;
 	default:
@@ -586,7 +375,7 @@ void GoldMinerEngine::SetNextLevel(){
 	}
 	rem_time = ROUND_TIME;
 	rst_time = 0;
-	m_state = stateGoal;
+	stage = new GoalStage(this);
 	SetupBackgroundBuffer();
 	Redraw(true);
 }
@@ -611,10 +400,10 @@ void GoldMinerEngine::InitialiseLevelObjects(int pig_num, int map_mode){
 	tiley = 10 * (rand() % 15 + 25);
 	int tx = tilex + (1.5*tile_width);
 	int ty = tiley + (1.5*tile_width);
-	int randomx = 50*(rand() % 12);
-	int randomy = 50*(rand() % 5 + 5);
+	int randomx;
+	int randomy;
 	if (map_mode == 0){
-		set_up(stone_num, gold_num, diamond_num);
+		InitialisePosition(stone_num, gold_num, diamond_num);
 		for (int i = 0; i < pig_num; i++){
 			randomx = 50 * (rand() % 12);
 			randomy = 50 * (rand() % 5 + 5);
@@ -629,7 +418,7 @@ void GoldMinerEngine::InitialiseLevelObjects(int pig_num, int map_mode){
 		}
 	}
 	
-	StoreObjectInArray(HOOKID, new HookObject(this, tx, ty, 30, 10, 5, "right", 1));
+	StoreObjectInArray(HOOKID, new HookObject(this, tx, ty, 30, 10, 5, "right", 1,0));
 	
 
 }
@@ -640,7 +429,7 @@ void GoldMinerEngine::ResetAll(){
 	printf("Reset\n");
 	obj_num = 10;
 	level = 1;
-	m_state = stateGoal;
+	stage = new GoalStage(this);
 	score = 0;
 	rem_time = ROUND_TIME;
 	ini_time = ROUND_TIME;
@@ -657,7 +446,7 @@ void GoldMinerEngine::ResetAll(){
 
 
 // for user name input
-void GoldMinerEngine::GetName(int iKeyCode){
+void GoldMinerEngine::SetName(int iKeyCode){
 	char buf[2];
 	int font_width = 20;
 	int helper_x = name_inix;
@@ -683,9 +472,10 @@ void GoldMinerEngine::GetName(int iKeyCode){
 		default_name[char_counter] = iKeyCode;
 		sprintf(buf, "%c", iKeyCode);	
 		DrawBackgroundString(name_x, name_y, buf, 0xf4901e, NULL);
-		Redraw(true);
+		
 		char_counter++;
 		name_x += font_width;
+		Redraw(true);
 	}
 	
 }
@@ -788,21 +578,46 @@ void GoldMinerEngine::DisplayResults(){
 
 void GoldMinerEngine::UnDrawStrings()
 {
-	if (m_state != statePaused)
-		// Clear the top of the screen, since we about to draw text on it.
-		CopyBackgroundPixels(0, 0, GetScreenWidth(), 100);
+	stage->UnDrawStrings();
 }
 
 
 void GoldMinerEngine::UndrawObjects()
 {
-	if (m_state == stateMain || m_state == statePaused){ // Not in initialise state
-		BaseEngine::UndrawObjects();
-	}
+	stage->UndrawObjects();
 }
 
 void GoldMinerEngine::DrawObjects()
 {
-	if (m_state == stateMain || m_state == statePaused) // Not in initialise state
-		BaseEngine::DrawObjects();
+	stage->DrawObjects();
 }
+
+void GoldMinerEngine::setState(StageClass * iSC)
+{
+	this->stage = iSC;
+}
+
+
+int GoldMinerEngine::getiTick()
+{
+	return m_iTick;
+}
+
+
+char * GoldMinerEngine::getName()
+{
+	return default_name;
+}
+
+
+StageClass * GoldMinerEngine::getStage()
+{
+	return stage;
+}
+
+//
+//BombObject& GoldMinerEngine::GetTileManager()
+//{
+//	//TODO: insert return statement here
+//	return stage->GetTileManager();
+//}

@@ -85,8 +85,15 @@ void PigObject::Draw()
 		break;
 	case 2:
 		char buf[100];
-		sprintf(buf, "+%d points!", score);
-		GetEngine()->DrawScreenString(m_iCurrentScreenX, m_iCurrentScreenY, buf, 0xff0000);
+		if (score > 0){
+			sprintf(buf, "+%d points!", score);
+			GetEngine()->DrawScreenString(m_iCurrentScreenX, m_iCurrentScreenY, buf, 0xff0000);
+		}
+		else{
+			sprintf(buf, "-%d points!", abs(score));
+			GetEngine()->DrawScreenString(m_iCurrentScreenX, m_iCurrentScreenY, buf, 0x000000);
+		}
+		
 		break;
 	default:
 		break;
