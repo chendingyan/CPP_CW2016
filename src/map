@@ -1,6 +1,6 @@
  CourseworkBase
 
- Timestamp is 5913b284 (Thu May 11 01:38:28 2017)
+ Timestamp is 5913c582 (Thu May 11 02:59:30 2017)
 
  Preferred load address is 00400000
 
@@ -43,11 +43,11 @@
 
   Address         Publics by Value              Rva+Base       Lib:Object
 
- 0000:00000000       ___guard_fids_table        00000000     <absolute>
- 0000:00000000       ___guard_fids_count        00000000     <absolute>
- 0000:00000000       ___guard_flags             00000000     <absolute>
  0000:00000000       __except_list              00000000     <absolute>
- 0000:00000053       ___safe_se_handler_count   00000053     <absolute>
+ 0000:00000000       ___guard_fids_count        00000000     <absolute>
+ 0000:00000000       ___guard_fids_table        00000000     <absolute>
+ 0000:00000000       ___guard_flags             00000000     <absolute>
+ 0000:00000054       ___safe_se_handler_count   00000054     <absolute>
  0000:00009876       __fltused                  00009876     <absolute>
  0000:00009876       __ldused                   00009876     <absolute>
  0000:00000000       ___ImageBase               00400000     <linker-defined>
@@ -124,10 +124,10 @@
  0001:00006ba0       ??_GBadPigObject@@UAEPAXI@Z 00407ba0 f i BadPigObject.obj
  0001:00006ba0       ??_EBadPigObject@@UAEPAXI@Z 00407ba0 f i BadPigObject.obj
  0001:00006bf0       ??_GPoint@@QAEPAXI@Z       00407bf0 f i BadPigObject.obj
- 0001:00006c40       ??_G_Generic_error_category@std@@UAEPAXI@Z 00407c40 f i BadPigObject.obj
  0001:00006c40       ??_E_Generic_error_category@std@@UAEPAXI@Z 00407c40 f i BadPigObject.obj
- 0001:00006c90       ??_E_Iostream_error_category@std@@UAEPAXI@Z 00407c90 f i BadPigObject.obj
+ 0001:00006c40       ??_G_Generic_error_category@std@@UAEPAXI@Z 00407c40 f i BadPigObject.obj
  0001:00006c90       ??_G_Iostream_error_category@std@@UAEPAXI@Z 00407c90 f i BadPigObject.obj
+ 0001:00006c90       ??_E_Iostream_error_category@std@@UAEPAXI@Z 00407c90 f i BadPigObject.obj
  0001:00006ce0       ??_E_System_error_category@std@@UAEPAXI@Z 00407ce0 f i BadPigObject.obj
  0001:00006ce0       ??_G_System_error_category@std@@UAEPAXI@Z 00407ce0 f i BadPigObject.obj
  0001:00006d30       ??_Gerror_category@std@@UAEPAXI@Z 00407d30 f i BadPigObject.obj
@@ -136,6 +136,7 @@
  0001:00007030       ?Cross@BadPigObject@@QAEXN@Z 00408030 f   BadPigObject.obj
  0001:000070d0       ?DoUpdate@BadPigObject@@UAEXH@Z 004080d0 f   BadPigObject.obj
  0001:00007420       ?Draw@BadPigObject@@UAEXXZ 00408420 f   BadPigObject.obj
+ 0001:000077d0       ?KeyPressed@ScoreStage@@UAEXH@Z 004087d0 f   ScoreStage.obj
  0001:000078b0       ?DrawScreenString@BaseEngine@@QAEXHHPBDIPAVFont@@@Z 004088b0 f i BadPigObject.obj
  0001:00007900       ?GetEngine@DisplayableObject@@QBEPAVBaseEngine@@XZ 00408900 f i BadPigObject.obj
  0001:00007920       ?GetHeight@ImageData@@QBEHXZ 00408920 f i BadPigObject.obj
@@ -240,8 +241,8 @@
  0001:0000a820       ?GetValue@TileManager@@QBEHHH@Z 0040b820 f i BombObject.obj
  0001:0000a860       ??0DiamondObject@@QAE@PAVGoldMinerEngine@@HHHH@Z 0040b860 f   DiamondObject.obj
  0001:0000aa00       ??1DiamondObject@@UAE@XZ   0040ba00 f   DiamondObject.obj
- 0001:0000aa80       ??_GDiamondObject@@UAEPAXI@Z 0040ba80 f i DiamondObject.obj
  0001:0000aa80       ??_EDiamondObject@@UAEPAXI@Z 0040ba80 f i DiamondObject.obj
+ 0001:0000aa80       ??_GDiamondObject@@UAEPAXI@Z 0040ba80 f i DiamondObject.obj
  0001:0000aad0       ?DoUpdate@DiamondObject@@UAEXH@Z 0040bad0 f   DiamondObject.obj
  0001:0000ab20       ?Draw@DiamondObject@@UAEXXZ 0040bb20 f   DiamondObject.obj
  0001:0000ac10       ??0DynamicObject@@QAE@PAVGoldMinerEngine@@HHHHH@Z 0040bc10 f   DynamicObject.obj
@@ -365,15 +366,15 @@
  0001:0000e620       ??_D?$basic_ofstream@DU?$char_traits@D@std@@@std@@QAEXXZ 0040f620 f i GoldMinerEngine.obj
  0001:0000e654       ??_E?$basic_ifstream@DU?$char_traits@D@std@@@std@@$4PPPPPPPM@A@AEPAXI@Z 0040f654 f i GoldMinerEngine.obj
  0001:0000e65e       ??_E?$basic_ofstream@DU?$char_traits@D@std@@@std@@$4PPPPPPPM@A@AEPAXI@Z 0040f65e f i GoldMinerEngine.obj
- 0001:0000e670       ??_G?$basic_filebuf@DU?$char_traits@D@std@@@std@@UAEPAXI@Z 0040f670 f i GoldMinerEngine.obj
  0001:0000e670       ??_E?$basic_filebuf@DU?$char_traits@D@std@@@std@@UAEPAXI@Z 0040f670 f i GoldMinerEngine.obj
- 0001:0000e6c0       ??_E?$basic_ifstream@DU?$char_traits@D@std@@@std@@UAEPAXI@Z 0040f6c0 f i GoldMinerEngine.obj
+ 0001:0000e670       ??_G?$basic_filebuf@DU?$char_traits@D@std@@@std@@UAEPAXI@Z 0040f670 f i GoldMinerEngine.obj
  0001:0000e6c0       ??_G?$basic_ifstream@DU?$char_traits@D@std@@@std@@UAEPAXI@Z 0040f6c0 f i GoldMinerEngine.obj
- 0001:0000e710       ??_E?$basic_ofstream@DU?$char_traits@D@std@@@std@@UAEPAXI@Z 0040f710 f i GoldMinerEngine.obj
+ 0001:0000e6c0       ??_E?$basic_ifstream@DU?$char_traits@D@std@@@std@@UAEPAXI@Z 0040f6c0 f i GoldMinerEngine.obj
  0001:0000e710       ??_G?$basic_ofstream@DU?$char_traits@D@std@@@std@@UAEPAXI@Z 0040f710 f i GoldMinerEngine.obj
+ 0001:0000e710       ??_E?$basic_ofstream@DU?$char_traits@D@std@@@std@@UAEPAXI@Z 0040f710 f i GoldMinerEngine.obj
  0001:0000e760       ??_G?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@QAEPAXI@Z 0040f760 f i GoldMinerEngine.obj
- 0001:0000e7b0       ??_EGoldMinerEngine@@UAEPAXI@Z 0040f7b0 f i GoldMinerEngine.obj
  0001:0000e7b0       ??_GGoldMinerEngine@@UAEPAXI@Z 0040f7b0 f i GoldMinerEngine.obj
+ 0001:0000e7b0       ??_EGoldMinerEngine@@UAEPAXI@Z 0040f7b0 f i GoldMinerEngine.obj
  0001:0000e800       ?BackgroundAnimation@GoldMinerEngine@@QAEXXZ 0040f800 f   GoldMinerEngine.obj
  0001:0000e900       ?DisplayResults@GoldMinerEngine@@QAEXXZ 0040f900 f   GoldMinerEngine.obj
  0001:0000ef80       ?DrawObjects@GoldMinerEngine@@UAEXXZ 0040ff80 f   GoldMinerEngine.obj
@@ -488,8 +489,8 @@
  0001:00014420       ?underflow@?$basic_filebuf@DU?$char_traits@D@std@@@std@@MAEHXZ 00415420 f i GoldMinerEngine.obj
  0001:000144e0       ??0GoldObject@@QAE@PAVGoldMinerEngine@@HHHH@Z 004154e0 f   GoldObject.obj
  0001:000146c0       ??1GoldObject@@UAE@XZ      004156c0 f   GoldObject.obj
- 0001:00014740       ??_GGoldObject@@UAEPAXI@Z  00415740 f i GoldObject.obj
  0001:00014740       ??_EGoldObject@@UAEPAXI@Z  00415740 f i GoldObject.obj
+ 0001:00014740       ??_GGoldObject@@UAEPAXI@Z  00415740 f i GoldObject.obj
  0001:00014790       ?DoUpdate@GoldObject@@UAEXH@Z 00415790 f   GoldObject.obj
  0001:000147d0       ?Draw@GoldObject@@UAEXXZ   004157d0 f   GoldObject.obj
  0001:000148c0       ??0HookableObject@@QAE@PAVGoldMinerEngine@@HHHH@Z 004158c0 f   HookableObject.obj
@@ -504,8 +505,8 @@
  0001:00015020       ??$?8DU?$char_traits@D@std@@V?$allocator@D@1@@std@@YA_NABV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@0@PBD@Z 00416020 f i HookObject.obj
  0001:00015060       ??0HookObject@@QAE@PAVGoldMinerEngine@@HHHHHV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@HH@Z 00416060 f   HookObject.obj
  0001:00015350       ??1HookObject@@UAE@XZ      00416350 f   HookObject.obj
- 0001:00015390       ??_GHookObject@@UAEPAXI@Z  00416390 f i HookObject.obj
  0001:00015390       ??_EHookObject@@UAEPAXI@Z  00416390 f i HookObject.obj
+ 0001:00015390       ??_GHookObject@@UAEPAXI@Z  00416390 f i HookObject.obj
  0001:000153e0       ?Back@HookObject@@QAEXXZ   004163e0 f   HookObject.obj
  0001:00015540       ?DoUpdate@HookObject@@UAEXH@Z 00416540 f   HookObject.obj
  0001:00015720       ?Draw@HookObject@@UAEXXZ   00416720 f   HookObject.obj
@@ -689,7 +690,6 @@
  0001:0001fe00       ??0ScoreStage@@QAE@PAVGoldMinerEngine@@@Z 00420e00 f   ScoreStage.obj
  0001:0001fe40       ??1ScoreStage@@QAE@XZ      00420e40 f   ScoreStage.obj
  0001:0001fe70       ?DrawStringsOnTheTop@ScoreStage@@UAEXXZ 00420e70 f   ScoreStage.obj
- 0001:0001fee0       ?KeyPressed@ScoreStage@@UAEXH@Z 00420ee0 f   ScoreStage.obj
  0001:0001ff10       ?SetBackground@ScoreStage@@UAEXXZ 00420f10 f   ScoreStage.obj
  0001:0001ff90       ??0SetNameStage@@QAE@PAVGoldMinerEngine@@@Z 00420f90 f   SetNameStage.obj
  0001:0001ffd0       ??1SetNameStage@@QAE@XZ    00420fd0 f   SetNameStage.obj
@@ -727,13 +727,13 @@
  0001:000212a0       ?UndrawObjects@StageClass@@UAEXXZ 004222a0 f   StageClass.obj
  0001:000212c0       ??0StaticObject@@QAE@PAVGoldMinerEngine@@HHHH@Z 004222c0 f   StaticObject.obj
  0001:00021320       ??1StaticObject@@UAE@XZ    00422320 f   StaticObject.obj
- 0001:00021350       ??_GStaticObject@@UAEPAXI@Z 00422350 f i StaticObject.obj
  0001:00021350       ??_EStaticObject@@UAEPAXI@Z 00422350 f i StaticObject.obj
+ 0001:00021350       ??_GStaticObject@@UAEPAXI@Z 00422350 f i StaticObject.obj
  0001:000213a0       ?DoUpdate@StaticObject@@UAEXH@Z 004223a0 f   StaticObject.obj
  0001:000213f0       ??0StoneObject@@QAE@PAVGoldMinerEngine@@HHHH@Z 004223f0 f   StoneObject.obj
  0001:00021590       ??1StoneObject@@UAE@XZ     00422590 f   StoneObject.obj
- 0001:00021610       ??_EStoneObject@@UAEPAXI@Z 00422610 f i StoneObject.obj
  0001:00021610       ??_GStoneObject@@UAEPAXI@Z 00422610 f i StoneObject.obj
+ 0001:00021610       ??_EStoneObject@@UAEPAXI@Z 00422610 f i StoneObject.obj
  0001:00021660       ?DoUpdate@StoneObject@@UAEXH@Z 00422660 f   StoneObject.obj
  0001:000216a0       ?Draw@StoneObject@@UAEXXZ  004226a0 f   StoneObject.obj
  0001:00021790       ?DrawAllTilesAt@TileManager@@QBEXPAVBaseEngine@@PAUSDL_Surface@@HHHHHH@Z 00422790 f   TileManager.obj
@@ -748,8 +748,8 @@
  0001:00021d50       ??1BouncingBall@@UAE@XZ    00422d50 f   BouncingBall.obj
  0001:00021d80       ??_GBouncingBall1@@UAEPAXI@Z 00422d80 f i BouncingBall.obj
  0001:00021d80       ??_EBouncingBall1@@UAEPAXI@Z 00422d80 f i BouncingBall.obj
- 0001:00021dd0       ??_EBouncingBall2@@UAEPAXI@Z 00422dd0 f i BouncingBall.obj
  0001:00021dd0       ??_GBouncingBall2@@UAEPAXI@Z 00422dd0 f i BouncingBall.obj
+ 0001:00021dd0       ??_EBouncingBall2@@UAEPAXI@Z 00422dd0 f i BouncingBall.obj
  0001:00021e20       ??_GBouncingBall@@UAEPAXI@Z 00422e20 f i BouncingBall.obj
  0001:00021e20       ??_EBouncingBall@@UAEPAXI@Z 00422e20 f i BouncingBall.obj
  0001:00021e70       ?Calculate@MovementPosition@@QAEXH@Z 00422e70 f i BouncingBall.obj
@@ -824,8 +824,8 @@
  0001:000253f0       ?GetYDiffForDirection@Demo3Object@@QAEHH@Z 004263f0 f i Demo3Object.obj
  0001:00025470       ??0Demo3ObjectFinished@@QAE@PAVDemo3Main@@HH@Z 00426470 f   Demo3ObjectFinished.obj
  0001:000255b0       ??1Demo3ObjectFinished@@UAE@XZ 004265b0 f   Demo3ObjectFinished.obj
- 0001:000255e0       ??_GDemo3ObjectFinished@@UAEPAXI@Z 004265e0 f i Demo3ObjectFinished.obj
  0001:000255e0       ??_EDemo3ObjectFinished@@UAEPAXI@Z 004265e0 f i Demo3ObjectFinished.obj
+ 0001:000255e0       ??_GDemo3ObjectFinished@@UAEPAXI@Z 004265e0 f i Demo3ObjectFinished.obj
  0001:00025630       ?DoUpdate@Demo3ObjectFinished@@UAEXH@Z 00426630 f   Demo3ObjectFinished.obj
  0001:00025a00       ?Draw@Demo3ObjectFinished@@UAEXXZ 00426a00 f   Demo3ObjectFinished.obj
  0001:00025ae0       ?GetXDiffForDirection@Demo3ObjectFinished@@QAEHH@Z 00426ae0 f i Demo3ObjectFinished.obj
@@ -835,8 +835,8 @@
  0001:00025c50       ?DrawTileAt@Demo3TileManager@@UBEXPAVBaseEngine@@PAUSDL_Surface@@HHHH@Z 00426c50 f   Demo3TileManager.obj
  0001:00025e40       ??0Demo4Main@@QAE@XZ       00426e40 f   Demo4Main.obj
  0001:00025ee0       ??1Demo4Main@@UAE@XZ       00426ee0 f   Demo4Main.obj
- 0001:00025f60       ??_EDemo4Main@@UAEPAXI@Z   00426f60 f i Demo4Main.obj
  0001:00025f60       ??_GDemo4Main@@UAEPAXI@Z   00426f60 f i Demo4Main.obj
+ 0001:00025f60       ??_EDemo4Main@@UAEPAXI@Z   00426f60 f i Demo4Main.obj
  0001:00025fb0       ?DrawObjects@Demo4Main@@UAEXXZ 00426fb0 f   Demo4Main.obj
  0001:00025fe0       ?DrawStrings@Demo4Main@@UAEXXZ 00426fe0 f   Demo4Main.obj
  0001:000260f0       ?GameAction@Demo4Main@@UAEXXZ 004270f0 f   Demo4Main.obj
@@ -847,8 +847,8 @@
  0001:000267d0       ?UndrawObjects@Demo4Main@@UAEXXZ 004277d0 f   Demo4Main.obj
  0001:00026800       ??0Demo4Object@@QAE@PAVDemo4Main@@HH@Z 00427800 f   Demo4Object.obj
  0001:00026940       ??1Demo4Object@@UAE@XZ     00427940 f   Demo4Object.obj
- 0001:00026970       ??_EDemo4Object@@UAEPAXI@Z 00427970 f i Demo4Object.obj
  0001:00026970       ??_GDemo4Object@@UAEPAXI@Z 00427970 f i Demo4Object.obj
+ 0001:00026970       ??_EDemo4Object@@UAEPAXI@Z 00427970 f i Demo4Object.obj
  0001:000269c0       ?DoUpdate@Demo4Object@@UAEXH@Z 004279c0 f   Demo4Object.obj
  0001:00026f90       ?Draw@Demo4Object@@UAEXXZ  00427f90 f   Demo4Object.obj
  0001:00027080       ?GetTileManager@Demo4Main@@QAEAAVDemo4TileManager@@XZ 00428080 f i Demo4Object.obj

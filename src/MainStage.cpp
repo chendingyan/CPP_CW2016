@@ -26,7 +26,7 @@ void MainStage::SetBackground()
 		0, 0,
 		engine->GetScreenWidth(), GBK_Y);
 	
-	if (engine->level != 2 || engine->level!=3){
+	if (engine->level != 2 && engine->level!=3){
 		int bombTile[3][3] = { { 0, 0, 0 }, { 0, 1, 0 }, { 0, 0, 0 } };
 
 		stone_bomber.SetSize(3, 3);

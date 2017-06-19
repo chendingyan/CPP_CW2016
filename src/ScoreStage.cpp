@@ -1,5 +1,5 @@
 #include "ScoreStage.h"
-
+#include "InitialStage.h"
 
 ScoreStage::ScoreStage(GoldMinerEngine * engine)
 	:StageClass(engine)
@@ -31,5 +31,10 @@ void ScoreStage::DrawStringsOnTheTop()
 
 void ScoreStage::KeyPressed(int iKeyCode)
 {
-	engine->ResetAll();
+	//engine->ResetAll();
+	if (iKeyCode == SDLK_SPACE){
+		engine->setState(new InitialStage(engine));
+		engine->SetupBackgroundBuffer();
+		engine->Redraw(true);
+	}
 }
